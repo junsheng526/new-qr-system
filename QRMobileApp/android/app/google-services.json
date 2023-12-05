@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "644900094439",
+    "firebase_url": "https://qr-code-ordering-system-21b61-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "qr-code-ordering-system-21b61",
+    "storage_bucket": "qr-code-ordering-system-21b61.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:644900094439:android:7296a8882a347f2d80bd42",
+        "android_client_info": {
+          "package_name": "com.qr.foodordering.system"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArYnM8gMt3I17DU9AHL1bt1YytvHGt7VM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
