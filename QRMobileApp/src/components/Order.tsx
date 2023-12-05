@@ -1,49 +1,29 @@
 import {View, Text, StyleSheet, FlatList} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Card, Divider} from 'react-native-paper';
-import firebase from 'firebase/app';
 
 type OrderProps = {
   tableNumber: string;
   filter?: boolean;
+  loadedOrders: Array<{
+    tableNumber: string;
+    finished: boolean;
+    orders: Array<{
+      ordertime: any;
+      finished: boolean;
+      dishes: Array<{
+        name: string;
+        quantity: number;
+        price: number;
+      }>;
+    }>;
+  }>;
 };
 
-const exampleOrders = [
-  {
-    tableNumber: '1',
-    finished: true,
-    orders: [
-      {
-        ordertime: new Date(),
-        finished: true,
-        dishes: [
-          {name: 'Dish 1', quantity: 2, price: 10},
-          {name: 'Dish 2', quantity: 1, price: 15},
-        ],
-      },
-    ],
-  },
-  {
-    tableNumber: '2',
-    finished: false,
-    orders: [
-      {
-        ordertime: new Date(),
-        finished: false,
-        dishes: [
-          {name: 'Dish 3', quantity: 3, price: 8},
-          {name: 'Dish 4', quantity: 1, price: 12},
-        ],
-      },
-    ],
-  },
-  // Add more example data as needed
-];
-
 const Order = (props: OrderProps) => {
-  const {tableNumber, filter} = props;
+  const {tableNumber, filter, loadedOrders} = props;
   //   const [orders, setOrders] = useState([]);
-  const [orders, setOrders] = useState(exampleOrders);
+  const [orders, setOrders] = useState(loadedOrders);
 
   useEffect(() => {
     loadOrders();
@@ -51,25 +31,7 @@ const Order = (props: OrderProps) => {
   }, [filter]);
 
   const loadOrders = () => {
-    setOrders(exampleOrders);
-    //   const result: any = [];
-    //   firebase
-    //     .firestore()
-    //     .collection('restaurants')
-    //     .doc(String(loggedUser.displayName))
-    //     .collection('tables')
-    //     .doc(tableNumber)
-    //     .collection('orders')
-    //     .get()
-    //     .then((snapshot: any[]) => {
-    //       snapshot.forEach(doc => {
-    //         result.push(doc.data());
-    //       });
-    //       setOrders(result);
-    //     })
-    //     .catch((err: any) => {
-    //       console.log('Error getting documents', err);
-    //     });
+    setOrders(loadedOrders);
   };
 
   //   type DishProps = {dish: any; index: number};
@@ -102,7 +64,7 @@ const Order = (props: OrderProps) => {
     order: {
       ordertime: any;
       finished: boolean;
-      dishes: [{name: string; quantity: number; price: number}];
+      dishes: {name: string; quantity: number; price: number}[];
     },
     index: number,
   ) => {
@@ -189,11 +151,6 @@ const Order = (props: OrderProps) => {
   const data =
     orders.filter(order => order.finished === filter)[0]?.orders || [];
 
-  //   if (orders != null && orders.length !== 0) {
-  //     const data = orders.filter(order => order.finished === filter);
-  //     if (data.length === 0) {
-  //       return <View></View>;
-  //     }
   return (
     <View style={{padding: 10}}>
       <Card style={styles.container}>
@@ -210,7 +167,6 @@ const Order = (props: OrderProps) => {
       <Divider />
     </View>
   );
-  //   }
 };
 
 export default Order;
