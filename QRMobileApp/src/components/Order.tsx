@@ -1,169 +1,143 @@
 import {View, Text, StyleSheet, FlatList} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Card, Divider} from 'react-native-paper';
+import firestore from '@react-native-firebase/firestore';
 
 type OrderProps = {
   tableNumber: string;
   filter?: boolean;
-  loadedOrders: Array<{
-    tableNumber: string;
-    finished: boolean;
-    orders: Array<{
-      ordertime: any;
-      dishes: Array<{
-        name: string;
-        quantity: number;
-        price: number;
-      }>;
-    }>;
-  }>;
 };
 
 const Order = (props: OrderProps) => {
-  const {tableNumber, filter, loadedOrders} = props;
-  //   const [orders, setOrders] = useState([]);
-  const [orders, setOrders] = useState(loadedOrders);
+  const {tableNumber, filter} = props;
+  const [orders, setOrders] = useState([]);
 
   useEffect(() => {
     loadOrders();
-    console.log('Checking data >> ' + JSON.stringify(orders));
   }, [filter]);
 
-  const loadOrders = () => {
-    setOrders(loadedOrders);
+  const loadOrders = async () => {
+    try {
+      const snapshot = await firestore()
+        .collection('restaurants')
+        .doc('R00001')
+        .collection('tables')
+        .doc(tableNumber)
+        .collection('orders')
+        .get();
+
+      const result = snapshot.docs.map(doc => doc.data());
+      console.log('Check order details >> ' + JSON.stringify(result));
+      setOrders(result);
+    } catch (error) {
+      console.log('Error getting documents', error);
+    }
   };
 
-  //   type DishProps = {dish: any; index: number};
-
-  const orderDish = (
-    dish: {
-      name: string;
-      quantity: number;
-      price: number;
-    },
-    index: number,
-  ) => (
+  const orderDish = (dish, index) => (
     <View style={{flexDirection: 'row'}}>
       <Text style={Object.assign({}, {flex: 1.5}, styles.tableData)}>
-        {dish ? index + 1 : 'N/A'}
+        {index + 1}
       </Text>
       <Text style={Object.assign({}, {flex: 1.5}, styles.tableData)}>
-        {dish ? dish.name : 'N/A'}
+        {dish.name}
       </Text>
       <Text style={Object.assign({}, {flex: 1.5}, styles.tableData)}>
-        {dish ? dish.quantity : 0}
+        {dish.quantity}
       </Text>
       <Text style={Object.assign({}, {flex: 1.5}, styles.tableData)}>
-        {dish ? dish.price : 0}
+        {dish.price}
       </Text>
     </View>
   );
 
-  const tableItem = (
-    order: {
-      ordertime: any;
-      dishes: {name: string; quantity: number; price: number}[];
-    },
-    index: number,
-  ) => {
-    if (order != null) {
-      let total = 0;
-      let total_quantity = 0;
-      let order_number = index + 1;
-      let mTop = index === 0 ? 0 : 20;
-      if (order.dishes) {
-        for (let i = 0; i < order.dishes.length; i++) {
-          const price = order.dishes[i].price;
-          const quantity = order.dishes[i].quantity;
-          total += price * quantity;
-          total_quantity += quantity;
-        }
-      }
-      const date = order.ordertime ? order.ordertime : 'No date';
-      let day;
+  const tableItem = (order, index) => {
+    const totalQuantity = order.dishes.reduce(
+      (acc, dish) => acc + dish.quantity,
+      0,
+    );
+    const totalPrice = order.dishes.reduce(
+      (acc, dish) => acc + dish.price * dish.quantity,
+      0,
+    );
 
-      if (date !== 'No Date') {
-        day = date.toLocaleString();
-      }
-
-      return (
+    return (
+      <View style={{flexDirection: 'column'}}>
+        <Text
+          style={{
+            backgroundColor: '#AD40AF',
+            color: 'white',
+            fontWeight: 'bold',
+            textAlign: 'center',
+          }}>
+          {`Order #${index + 1} : ${
+            order.ordertime
+              ? order.ordertime.toDate().toLocaleString()
+              : 'No date'
+          }`}
+        </Text>
         <View style={{flexDirection: 'column'}}>
-          <Text
+          <View style={{flexDirection: 'row', backgroundColor: '#000'}}>
+            <Text style={Object.assign({}, {flex: 2}, styles.tableHeader)}>
+              Index
+            </Text>
+            <Text style={Object.assign({}, {flex: 2}, styles.tableHeader)}>
+              Item
+            </Text>
+            <Text style={Object.assign({}, {flex: 1.5}, styles.tableHeader)}>
+              Amount
+            </Text>
+            <Text style={Object.assign({}, {flex: 1.5}, styles.tableHeader)}>
+              Each Price
+            </Text>
+          </View>
+          <FlatList
+            data={order.dishes}
+            renderItem={({item, index}) => orderDish(item, index)}
+            keyExtractor={(item, index) => index.toString()}
+          />
+          <View
             style={{
-              backgroundColor: '#AD40AF',
-              color: 'white',
-              fontWeight: 'bold',
-              textAlign: 'center',
+              flexDirection: 'row',
+              backgroundColor: '#000',
+              marginVertical: 5,
             }}>
-            {'Order #' + order_number + ' : ' + day}
-          </Text>
-          <View style={{flexDirection: 'column'}}>
-            <View style={{flexDirection: 'row', backgroundColor: '#000'}}>
-              <Text style={Object.assign({}, {flex: 2}, styles.tableHeader)}>
-                Index
-              </Text>
-              <Text style={Object.assign({}, {flex: 2}, styles.tableHeader)}>
-                Item
-              </Text>
-              <Text style={Object.assign({}, {flex: 1.5}, styles.tableHeader)}>
-                Amount
-              </Text>
-              <Text style={Object.assign({}, {flex: 1.5}, styles.tableHeader)}>
-                Each Price
-              </Text>
-            </View>
-            <FlatList
-              data={
-                order.dishes
-                  ? order.dishes
-                  : [{name: 'N/A', price: 0, quantity: 0}]
-              }
-              renderItem={({item, index}) => orderDish(item, index)}
-              keyExtractor={(item, index) => index.toString()}
-            />
-            <View
-              style={{
-                flexDirection: 'row',
-                backgroundColor: '#000',
-                marginVertical: 5,
-              }}>
-              <Text style={Object.assign({}, {flex: 3.5}, styles.tableHeader)}>
-                Total
-              </Text>
-              <Text style={Object.assign({}, {flex: 1.5}, styles.tableHeader)}>
-                {total_quantity}
-              </Text>
-              <Text style={Object.assign({}, {flex: 1.5}, styles.tableHeader)}>
-                {total}
-              </Text>
-            </View>
+            <Text style={Object.assign({}, {flex: 3.5}, styles.tableHeader)}>
+              Total
+            </Text>
+            <Text style={Object.assign({}, {flex: 1.5}, styles.tableHeader)}>
+              {totalQuantity}
+            </Text>
+            <Text style={Object.assign({}, {flex: 1.5}, styles.tableHeader)}>
+              {totalPrice}
+            </Text>
           </View>
         </View>
-      );
-    }
-
-    // Return a default element or null if order is null
-    return <View></View>;
+      </View>
+    );
   };
 
-  const data =
-    orders.filter(order => order.finished === filter)[0]?.orders || [];
+  const data = orders.filter(order => order.finished === filter);
+
+  const isEmpty = data.length ? false : true;
 
   return (
-    <View style={{padding: 10}}>
-      <Card style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.header}>Table Number: {tableNumber}</Text>
-        </View>
+    !isEmpty && (
+      <View style={{padding: 10}}>
+        <Card style={styles.container}>
+          <View style={styles.header}>
+            <Text style={styles.header}>Table Number: {tableNumber}</Text>
+          </View>
+          <Divider />
+          <FlatList
+            data={data}
+            renderItem={({item, index}) => tableItem(item, index)}
+            keyExtractor={(item, index) => index.toString()}
+          />
+        </Card>
         <Divider />
-        <FlatList
-          data={data}
-          renderItem={({item, index}) => tableItem(item, index)}
-          keyExtractor={(item, index) => index.toString()}
-        />
-      </Card>
-      <Divider />
-    </View>
+      </View>
+    )
   );
 };
 
@@ -176,25 +150,15 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 15,
     padding: 10,
-    // fontFamily: "Roboto",
-  },
-  orders: {
-    color: 'black',
-    textAlign: 'center',
-    paddingVertical: 10,
-    fontSize: 20,
-    fontWeight: 'bold',
   },
   tableHeader: {
     color: 'white',
     textAlign: 'center',
-    //fontFamily: "Roboto",
     fontSize: 15,
     padding: 10,
     fontWeight: 'bold',
   },
   tableData: {
-    // fontFamily: "Roboto",
     textAlign: 'center',
     fontSize: 15,
     padding: 3,

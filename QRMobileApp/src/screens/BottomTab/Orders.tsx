@@ -1,27 +1,49 @@
 import {useEffect, useState} from 'react';
-import {FlatList, StyleSheet, Text, View} from 'react-native';
+import {FlatList, StyleSheet, View} from 'react-native';
 import Order from '../../components/Order';
 import Button from '../../components/Button';
-import {OrderModel} from '../../model/model';
 import firestore from '@react-native-firebase/firestore';
-
-const fakeTables = ['1'];
 
 const Orders = () => {
   const [tables, setTables] = useState();
   const [unfinished, setUnfinished] = useState(true);
   const [orders, setOrders] = useState([]);
 
-  const loadedOrders: OrderModel[] = [];
-
   useEffect(() => {
-    loadFirebaseTables();
     loadTables();
-  }, [unfinished]); // Reload tables when the unfinished state changes
+    // addExampleDataToFirestore();
+  }, [unfinished]);
+
+  const addExampleDataToFirestore = async () => {
+    const exampleOrderData = {
+      ordertime: new Date(),
+      dishes: [
+        {name: 'Dish 1', quantity: 2, price: 10},
+        {name: 'Dish 2', quantity: 1, price: 15},
+        // Add more dishes as needed
+      ],
+      finished: false,
+    };
+
+    const tableNumber = '2'; // Replace with your table number
+
+    try {
+      await firestore()
+        .collection('restaurants')
+        .doc('R00001')
+        .collection('tables')
+        .doc(tableNumber)
+        .collection('orders')
+        .add(exampleOrderData);
+
+      console.log('Example order data added to Firestore successfully!');
+    } catch (error) {
+      console.error('Error adding example order data to Firestore:', error);
+    }
+  };
 
   const loadTables = async () => {
-    var result: string[] = [];
-    // koiSushiTables
+    var result = [];
     await firestore()
       .collection('restaurants')
       .doc('R00001')
@@ -30,9 +52,7 @@ const Orders = () => {
       .then(
         tablesSnapshot => {
           tablesSnapshot.forEach(tableDoc => {
-            // console.log(tableDoc.ref.id)
             result.push(tableDoc.ref.id);
-            // this.setState({ tables: [...this.state.tables, tableDoc.ref.id] });
           });
           setTables(result);
         },
@@ -40,6 +60,16 @@ const Orders = () => {
           console.log(`Encountered error: ${err}`);
         },
       );
+    var result2 = [];
+    const docSnapshot = await firestore()
+      .collection('restaurants')
+      .doc('R00001')
+      .collection('tables')
+      .doc('1')
+      .get();
+    const updatedStatus = docSnapshot.data().status;
+
+    console.log('Check data >> ' + updatedStatus);
 
     console.log('Check table from Firestore >> ' + JSON.stringify(result));
     // Load tables based on the current unfinished state
@@ -52,30 +82,6 @@ const Orders = () => {
 
       setTables(filteredTables);
     }
-  };
-
-  const loadFirebaseTables = () => {
-    var result = [];
-    // console.log(this.props.tableNumber)
-    // console.log("orders: ", koiSushiTables.doc(this.props.tableNumber).collection("orders").ordertime);
-    firestore()
-      .collection('restaurants')
-      .doc('R00001')
-      .collection('tables')
-      .doc('1')
-      .collection('orders')
-      .get()
-      .then(snapshot => {
-        snapshot.forEach(doc => {
-          // console.log(doc.id, '=>', doc.data());
-          result.push(doc.data());
-        });
-        console.log('check result >> ' + JSON.stringify(result));
-        setOrders(result);
-      })
-      .catch(err => {
-        console.log('Error getting documents', err);
-      });
   };
 
   const handleProgress = () => {
@@ -112,12 +118,7 @@ const Orders = () => {
       <FlatList
         data={tables}
         renderItem={({item}) => (
-          <Order
-            key={item}
-            tableNumber={item}
-            filter={!unfinished}
-            loadedOrders={orders}
-          />
+          <Order key={item} tableNumber={item} filter={!unfinished} />
         )}
         keyExtractor={item => item}
         extraData={unfinished}
