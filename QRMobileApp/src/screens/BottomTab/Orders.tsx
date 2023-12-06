@@ -3,57 +3,79 @@ import {FlatList, StyleSheet, Text, View} from 'react-native';
 import Order from '../../components/Order';
 import Button from '../../components/Button';
 import {OrderModel} from '../../model/model';
+import firestore from '@react-native-firebase/firestore';
 
-const fakeTables = ['1', '2'];
+const fakeTables = ['1'];
 
 const Orders = () => {
-  const [tables, setTables] = useState(fakeTables);
+  const [tables, setTables] = useState();
   const [unfinished, setUnfinished] = useState(true);
+  const [orders, setOrders] = useState([]);
 
-  const loadedOrders: OrderModel[] = [
-    {
-      tableNumber: '1',
-      finished: true,
-      orders: [
-        {
-          ordertime: new Date(),
-          finished: true,
-          dishes: [
-            {name: 'Dish 1', quantity: 2, price: 10},
-            {name: 'Dish 2', quantity: 1, price: 15},
-          ],
-        },
-      ],
-    },
-    {
-      tableNumber: '2',
-      finished: false,
-      orders: [
-        {
-          ordertime: new Date(),
-          finished: false,
-          dishes: [
-            {name: 'Dish 3', quantity: 3, price: 8},
-            {name: 'Dish 4', quantity: 1, price: 12},
-          ],
-        },
-      ],
-    },
-  ];
+  const loadedOrders: OrderModel[] = [];
 
   useEffect(() => {
+    loadFirebaseTables();
     loadTables();
   }, [unfinished]); // Reload tables when the unfinished state changes
 
-  const loadTables = () => {
-    // Load tables based on the current unfinished state
-    const filteredTables = fakeTables.filter(table => {
-      // Customize this condition based on your actual data structure
-      const order = loadedOrders.find(o => o.tableNumber === table);
-      return order ? order.finished === unfinished : false;
-    });
+  const loadTables = async () => {
+    var result: string[] = [];
+    // koiSushiTables
+    await firestore()
+      .collection('restaurants')
+      .doc('R00001')
+      .collection('tables')
+      .get()
+      .then(
+        tablesSnapshot => {
+          tablesSnapshot.forEach(tableDoc => {
+            // console.log(tableDoc.ref.id)
+            result.push(tableDoc.ref.id);
+            // this.setState({ tables: [...this.state.tables, tableDoc.ref.id] });
+          });
+          setTables(result);
+        },
+        err => {
+          console.log(`Encountered error: ${err}`);
+        },
+      );
 
-    setTables(filteredTables);
+    console.log('Check table from Firestore >> ' + JSON.stringify(result));
+    // Load tables based on the current unfinished state
+    if (tables) {
+      const filteredTables = tables.filter((table: string) => {
+        // Customize this condition based on your actual data structure
+        const order = loadedOrders.find(o => o.tableNumber === table);
+        return order ? order.finished === unfinished : false;
+      });
+
+      setTables(filteredTables);
+    }
+  };
+
+  const loadFirebaseTables = () => {
+    var result = [];
+    // console.log(this.props.tableNumber)
+    // console.log("orders: ", koiSushiTables.doc(this.props.tableNumber).collection("orders").ordertime);
+    firestore()
+      .collection('restaurants')
+      .doc('R00001')
+      .collection('tables')
+      .doc('1')
+      .collection('orders')
+      .get()
+      .then(snapshot => {
+        snapshot.forEach(doc => {
+          // console.log(doc.id, '=>', doc.data());
+          result.push(doc.data());
+        });
+        console.log('check result >> ' + JSON.stringify(result));
+        setOrders(result);
+      })
+      .catch(err => {
+        console.log('Error getting documents', err);
+      });
   };
 
   const handleProgress = () => {
@@ -94,7 +116,7 @@ const Orders = () => {
             key={item}
             tableNumber={item}
             filter={!unfinished}
-            loadedOrders={loadedOrders}
+            loadedOrders={orders}
           />
         )}
         keyExtractor={item => item}

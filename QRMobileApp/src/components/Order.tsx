@@ -10,7 +10,6 @@ type OrderProps = {
     finished: boolean;
     orders: Array<{
       ordertime: any;
-      finished: boolean;
       dishes: Array<{
         name: string;
         quantity: number;
@@ -63,7 +62,6 @@ const Order = (props: OrderProps) => {
   const tableItem = (
     order: {
       ordertime: any;
-      finished: boolean;
       dishes: {name: string; quantity: number; price: number}[];
     },
     index: number,
