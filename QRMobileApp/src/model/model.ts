@@ -9,7 +9,6 @@ export type OrderModel = {
   finished: boolean;
   orders: {
     ordertime: Date;
-    finished: boolean;
     dishes: DishModel[];
   }[];
 };
