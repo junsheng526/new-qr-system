@@ -23,7 +23,7 @@ export const TabNavigator = () => {
       initialRouteName="Home"
       activeColor="#ffffff"
       inactiveColor="#000000"
-      barStyle={{backgroundColor: '#AD40AF'}}
+      barStyle={{backgroundColor: '#ececec'}}
       screenOptions={({route}) => ({
         tabBarIcon: () => {
           return <TabBarIcon icon={icons[route.name]} size={26} />;

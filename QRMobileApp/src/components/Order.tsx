@@ -2,6 +2,7 @@ import {View, Text, StyleSheet, FlatList} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Card, Divider} from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
+import {OrderModel} from '../model/model';
 
 type OrderProps = {
   tableNumber: string;
@@ -10,14 +11,17 @@ type OrderProps = {
 
 const Order = (props: OrderProps) => {
   const {tableNumber, filter} = props;
-  const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState<OrderModel[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     loadOrders();
-  }, [filter]);
+  }, []);
 
   const loadOrders = async () => {
     try {
+      setLoading(true);
       const snapshot = await firestore()
         .collection('restaurants')
         .doc('R00001')
@@ -26,15 +30,16 @@ const Order = (props: OrderProps) => {
         .collection('orders')
         .get();
 
-      const result = snapshot.docs.map(doc => doc.data());
-      console.log('Check order details >> ' + JSON.stringify(result));
+      const result = snapshot.docs.map(doc => doc.data() as OrderModel);
       setOrders(result);
     } catch (error) {
-      console.log('Error getting documents', error);
+      setError('Error getting orders');
+    } finally {
+      setLoading(false);
     }
   };
 
-  const orderDish = (dish, index) => (
+  const orderDish = (dish: any, index: number) => (
     <View style={{flexDirection: 'row'}}>
       <Text style={Object.assign({}, {flex: 1.5}, styles.tableData)}>
         {index + 1}
@@ -51,13 +56,13 @@ const Order = (props: OrderProps) => {
     </View>
   );
 
-  const tableItem = (order, index) => {
+  const tableItem = (order: any, index: number) => {
     const totalQuantity = order.dishes.reduce(
-      (acc, dish) => acc + dish.quantity,
+      (acc: any, dish: any) => acc + dish.quantity,
       0,
     );
     const totalPrice = order.dishes.reduce(
-      (acc, dish) => acc + dish.price * dish.quantity,
+      (acc: any, dish: any) => acc + dish.price * dish.quantity,
       0,
     );
 

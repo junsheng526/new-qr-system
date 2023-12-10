@@ -4,12 +4,14 @@ import {
   Alert,
   Button,
   Dimensions,
+  Image,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const {width, height} = Dimensions.get('window');
 const imageWidth = width * 0.2;
@@ -31,47 +33,55 @@ const Profile = () => {
   const user = auth.currentUser;
 
   return (
-    <ScrollView contentContainerStyle={{flexGrow: 1}}>
-      <View>
-        <Text style={styles.displayName}>{'Admin'}</Text>
-        <View style={styles.menuICons}>
-          <TouchableOpacity
-            style={styles.menuIcon}
-            onPress={() => {
-              navigation.navigate('Menu' as never);
-            }}>
-            {/* <FontAwesome name="book" size={50} color="#64d8cb" /> */}
-            <Text style={{fontWeight: 'bold'}}>Menu</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.menuIcon}
-            onPress={() => {
-              Alert.alert('Email: pjj851135136@gmail.com\nTel: 6083815169');
-            }}>
-            {/* <FontAwesome name="plus" size={50} color="#64d8cb" /> */}
-            <Text style={{fontWeight: 'bold'}}>Help</Text>
-          </TouchableOpacity>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={{justifyContent: 'center', alignItems: 'center'}}
+        showsVerticalScrollIndicator={false}>
+        <Image
+          style={styles.userImg}
+          source={{
+            uri: 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg',
+          }}
+        />
+        <Text style={styles.userName}>
+          {'Admin'} {'User'}
+        </Text>
+        {/* <Text>{route.params ? route.params.userId : user.uid}</Text> */}
+        <Text style={styles.aboutUser}>{user?.email}</Text>
+        <View style={styles.userBtnWrapper}>
+          <>
+            <TouchableOpacity
+              style={styles.userBtn}
+              onPress={() => {
+                navigation.navigate('Menu' as never);
+              }}>
+              <Text style={styles.userBtnTxt}>Menu</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.userBtn}
+              onPress={() => handleSignOut()}>
+              <Text style={styles.userBtnTxt}>Logout</Text>
+            </TouchableOpacity>
+          </>
         </View>
-      </View>
-      <View style={styles.container}>
-        <View>
-          <Text style={styles.label}>Name</Text>
-          <Text style={styles.value}>Admin</Text>
+
+        <View style={styles.userInfoWrapper}>
+          <View style={styles.userInfoItem}>
+            <Text style={styles.userInfoTitle}>{22}</Text>
+            <Text style={styles.userInfoSubTitle}>Posts</Text>
+          </View>
+          <View style={styles.userInfoItem}>
+            <Text style={styles.userInfoTitle}>10,000</Text>
+            <Text style={styles.userInfoSubTitle}>Followers</Text>
+          </View>
+          <View style={styles.userInfoItem}>
+            <Text style={styles.userInfoTitle}>100</Text>
+            <Text style={styles.userInfoSubTitle}>Following</Text>
+          </View>
         </View>
-      </View>
-      <View style={styles.container}>
-        <View>
-          <Text style={styles.label}>Email</Text>
-          <Text style={styles.value}>{user?.email}</Text>
-        </View>
-      </View>
-      <Button
-        color="#AD40AF"
-        title="Logout"
-        // style={styles.button}
-        onPress={handleSignOut}
-      />
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -79,53 +89,63 @@ export default Profile;
 
 const styles = StyleSheet.create({
   container: {
-    borderBottomColor: '#AAA',
-    borderBottomWidth: 1,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  menuICons: {
     flex: 1,
-    margin: 0,
-    flexDirection: 'row',
-    alignItems: 'center',
-    alignSelf: 'stretch',
-    justifyContent: 'flex-start',
+    backgroundColor: '#fff',
+    padding: 20,
   },
-  profileInfo: {
-    flex: 2,
+  userImg: {
+    height: 150,
+    width: 150,
+    borderRadius: 75,
   },
-  displayName: {
-    alignSelf: 'center',
+  userName: {
+    fontSize: 18,
     fontWeight: 'bold',
-    fontSize: 32,
-    marginBottom: 15,
+    marginTop: 10,
+    marginBottom: 10,
   },
-
-  menuIcon: {
-    margin: 0,
-    padding: 10,
-    flex: 1,
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: 'grey',
+  aboutUser: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#666',
+    textAlign: 'center',
+    marginBottom: 10,
   },
-  profPic: {
-    alignSelf: 'center',
+  userBtnWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    width: '100%',
+    marginBottom: 10,
   },
-
-  label: {
-    fontSize: 15,
+  userBtn: {
+    borderColor: '#2e64e5',
+    borderWidth: 2,
+    borderRadius: 3,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    marginHorizontal: 5,
+  },
+  userBtnTxt: {
+    color: '#2e64e5',
+  },
+  userInfoWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%',
+    marginVertical: 20,
+  },
+  userInfoItem: {
+    justifyContent: 'center',
+  },
+  userInfoTitle: {
+    fontSize: 20,
     fontWeight: 'bold',
-    color: '#AD40AF',
+    marginBottom: 5,
+    textAlign: 'center',
   },
-  value: {
-    fontSize: 25,
-  },
-  button: {
-    flex: 1,
-    width: 20,
+  userInfoSubTitle: {
+    fontSize: 12,
+    color: '#666',
+    textAlign: 'center',
   },
 });

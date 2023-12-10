@@ -3,16 +3,17 @@ import {FlatList, StyleSheet, View} from 'react-native';
 import Order from '../../components/Order';
 import Button from '../../components/Button';
 import firestore from '@react-native-firebase/firestore';
+import {OrderModel} from '../../model/model';
 
 const Orders = () => {
-  const [tables, setTables] = useState();
+  const [tables, setTables] = useState<string[]>();
   const [unfinished, setUnfinished] = useState(true);
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
     loadTables();
     // addExampleDataToFirestore();
-  }, [unfinished]);
+  }, []);
 
   const addExampleDataToFirestore = async () => {
     const exampleOrderData = {
@@ -43,44 +44,43 @@ const Orders = () => {
   };
 
   const loadTables = async () => {
-    var result = [];
-    await firestore()
-      .collection('restaurants')
-      .doc('R00001')
-      .collection('tables')
-      .get()
-      .then(
-        tablesSnapshot => {
-          tablesSnapshot.forEach(tableDoc => {
-            result.push(tableDoc.ref.id);
-          });
-          setTables(result);
-        },
-        err => {
-          console.log(`Encountered error: ${err}`);
-        },
-      );
-    var result2 = [];
-    const docSnapshot = await firestore()
-      .collection('restaurants')
-      .doc('R00001')
-      .collection('tables')
-      .doc('1')
-      .get();
-    const updatedStatus = docSnapshot.data().status;
+    try {
+      const tablesSnapshot = await firestore()
+        .collection('restaurants')
+        .doc('R00001')
+        .collection('tables')
+        .get();
 
-    console.log('Check data >> ' + updatedStatus);
-
-    console.log('Check table from Firestore >> ' + JSON.stringify(result));
-    // Load tables based on the current unfinished state
-    if (tables) {
-      const filteredTables = tables.filter((table: string) => {
-        // Customize this condition based on your actual data structure
-        const order = loadedOrders.find(o => o.tableNumber === table);
-        return order ? order.finished === unfinished : false;
+      const result: string[] = [];
+      tablesSnapshot.forEach(tableDoc => {
+        result.push(tableDoc.id);
       });
+      setTables(result);
 
-      setTables(filteredTables);
+      const docSnapshot = await firestore()
+        .collection('restaurants')
+        .doc('R00001')
+        .collection('tables')
+        .doc('1')
+        .get();
+
+      // NEED_TO_SERVE
+      const updatedStatus = docSnapshot.data()?.status;
+      console.log('Check data >> ' + updatedStatus);
+
+      console.log('Check table from Firestore >> ' + JSON.stringify(result));
+
+      if (tables) {
+        const loadedOrders: OrderModel[] = [];
+        const filteredTables = tables.filter((table: string) => {
+          const order = loadedOrders.find(o => o.tableNumber === table);
+          return order ? order.finished === unfinished : false;
+        });
+
+        setTables(filteredTables);
+      }
+    } catch (error) {
+      console.log('Encountered error:', error);
     }
   };
 
