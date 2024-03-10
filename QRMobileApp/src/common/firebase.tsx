@@ -27,3 +27,5 @@ initializeAuth(app, {
 });
 
 export default app;
+
+export const db = firebase.firestore()

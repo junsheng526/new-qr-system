@@ -6,16 +6,19 @@ import { Provider } from 'react-redux';
 import { goBack, navigate, navigationRef, reset } from './src/application/navigation';
 import { store } from './src/application/store';
 import { setupNav } from './src/common/navigation';
+import { Provider as PaperProvider } from 'react-native-paper';
 
 const initFirebase = app;
 
 const App = () => {
     return (
-        <Provider store={store}>
-            <NavigationContainer ref={navigationRef}>
-                <ApplicationContainer />
-            </NavigationContainer>
-        </Provider>
+        <PaperProvider>
+            <Provider store={store}>
+                <NavigationContainer ref={navigationRef}>
+                    <ApplicationContainer />
+                </NavigationContainer>
+            </Provider>
+        </PaperProvider>
     );
 };
 

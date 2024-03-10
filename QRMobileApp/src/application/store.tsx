@@ -13,7 +13,7 @@ import { profileReducer } from '../screens/profile/store'
 
 let applicatonData: ApplicationStoreData = {
   isInitDone: false,
-  loginNav: undefined,
+  userId: '',
 }
 
 const applicationReducer: ReducerFormat<ApplicationStoreData> = function (state = { ...applicatonData }, action) {

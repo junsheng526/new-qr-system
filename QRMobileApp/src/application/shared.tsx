@@ -12,5 +12,5 @@ export const StoreActions = {
 
 export interface ApplicationStoreData {
     isInitDone?: boolean;
-    loginNav?: () => void;
+    userId: string;
 }

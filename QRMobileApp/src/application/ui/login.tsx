@@ -21,7 +21,7 @@ export interface LoginScreenData {
 }
 
 export interface LoginScreenActions {
-
+    setUserId: (userId: string) => void
 }
 
 export var loggedUser: any;
@@ -32,7 +32,7 @@ const imageHeight = height * 0.4;
 const auth = getAuth();
 
 export const LoginScreen: React.FC<LoginScreenData & LoginScreenActions> = ({
-
+    setUserId,
 }) => {
 
     const [email, setEmail] = useState('');
@@ -46,6 +46,8 @@ export const LoginScreen: React.FC<LoginScreenData & LoginScreenActions> = ({
         signInWithEmailAndPassword(auth, email, password)
             .then(() => {
                 loggedUser = auth.currentUser;
+                console.log("loggedUser >> " + loggedUser)
+                setUserId(loggedUser);
             })
             .then(navToMain)
             .catch(function (error: any) {
