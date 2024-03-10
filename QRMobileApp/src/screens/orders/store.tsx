@@ -1,11 +1,11 @@
-import { StoreActions, ProfileModel } from './shared';
+import { StoreActions, OrdersModel } from './shared';
 
-let initial: ProfileModel = {
+let initial: OrdersModel = {
   value: ''
 };
 
-export const profileReducer: ReducerFormat<ProfileModel> = function (
-  state: ProfileModel = { ...initial },
+export const ordersReducer: ReducerFormat<OrdersModel> = function (
+  state: OrdersModel = { ...initial },
   action,
 ) {
   switch (action.type) {

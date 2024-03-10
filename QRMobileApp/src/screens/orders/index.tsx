@@ -1,12 +1,12 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import Table from './connected/table';
+import Orders from './connected/orders';
 
 const Stack = createStackNavigator();
 
 let Composed = () => (
   <Stack.Navigator>
-    <Stack.Screen name="TableLanding" component={Table} options={{ headerShown: false }} />
+    <Stack.Screen name="OrdersLanding" component={Orders} options={{ headerShown: false }} />
   </Stack.Navigator>
 );
 

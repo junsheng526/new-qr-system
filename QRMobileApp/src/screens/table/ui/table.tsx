@@ -7,8 +7,10 @@ export interface TableActions {
 
 export let Table: React.FC<TableActions> = ({ init }) => {
     useEffect(() => { init(); }, [init]);
-    return <View>
-        <Text>Sample 1 - page 1</Text>
-        <Button title="go to page2" onPress={() => { }} />
-    </View>;
+    return (
+        <View>
+            <Text>Sample 1 - page 1</Text>
+            <Button title="go to page2" onPress={() => { }} />
+        </View>
+    );
 }

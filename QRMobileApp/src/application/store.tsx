@@ -7,7 +7,9 @@ import { legacy_createStore, applyMiddleware, combineReducers } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import { rootSaga } from './saga';
 import { ApplicationStoreData, StoreActions } from './shared';
-import { sampleSecureReducer } from '../screens/table/store'
+import { tableReducer } from '../screens/table/store'
+import { ordersReducer } from '../screens/orders/store'
+import { profileReducer } from '../screens/profile/store'
 
 let applicatonData: ApplicationStoreData = {
   isInitDone: false,
@@ -29,7 +31,9 @@ const reduxSaga = createSagaMiddleware();
  */
 const rootReducers = combineReducers({
   applicationReducer,
-  sampleSecureReducer
+  tableReducer,
+  ordersReducer,
+  profileReducer,
 });
 
 export const store = legacy_createStore(

@@ -1,12 +1,10 @@
-/**
- * @format
- */
-
 import {AppRegistry} from 'react-native';
-import App from './App';
-import Application from './src/application';
+// import Application from './src/application';
 import {name as appName} from './app.json';
-import {initializeApp} from 'firebase/app';
+import app from './src/common/firebase';
+import App from './App';
+
+const initFirebase = app;
 
 function HeadlessCheck({isHeadless}) {
   if (isHeadless) {
@@ -15,4 +13,4 @@ function HeadlessCheck({isHeadless}) {
   return <Application />;
 }
 
-AppRegistry.registerComponent(appName, () => HeadlessCheck);
+AppRegistry.registerComponent(appName, () => App);

@@ -8,6 +8,9 @@
  */
 type ApplicationStore = {
   applicationReducer: import('./shared').ApplicationStoreData;
+  tableReducer: import('../screens/table/shared').TableModel;
+  ordersReducer: import('../screens/orders/shared').OrdersModel;
+  profileReducer: import('../screens/profile/shared').ProfileModel;
 };
 
 interface WithNavigation {

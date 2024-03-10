@@ -9,8 +9,8 @@ import {
 } from '../../assets/assets';
 import { ImageURISource } from 'react-native';
 import TabBarIcon from '../../components/TabBarIcon';
-import Orders from '../../screens/BottomTab/Orders';
-import Table from '../../screens/BottomTab/Table';
+import Orders from '../../screens/orders';
+import Table from '../../screens/table';
 import Profile from '../../screens/profile';
 
 export interface TabNavigatorData {

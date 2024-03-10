@@ -4,7 +4,7 @@ let initial: TableModel = {
   value: ''
 };
 
-export const sampleSecureReducer: ReducerFormat<TableModel> = function (
+export const tableReducer: ReducerFormat<TableModel> = function (
   state: TableModel = { ...initial },
   action,
 ) {
