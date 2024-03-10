@@ -68,12 +68,16 @@ const Order = (props: OrderProps) => {
 
     return (
       <View style={{flexDirection: 'column'}}>
+        <Divider />
         <Text
           style={{
-            backgroundColor: '#AD40AF',
+            backgroundColor: '#5FBDFF',
+            borderColor: '#ececec',
             color: 'white',
             fontWeight: 'bold',
             textAlign: 'center',
+            paddingTop: 10,
+            paddingBottom: 10,
           }}>
           {`Order #${index + 1} : ${
             order.ordertime
@@ -81,8 +85,14 @@ const Order = (props: OrderProps) => {
               : 'No date'
           }`}
         </Text>
+        <Divider />
         <View style={{flexDirection: 'column'}}>
-          <View style={{flexDirection: 'row', backgroundColor: '#000'}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              backgroundColor: '#5FBDFF',
+              // borderColor: '#ececec',
+            }}>
             <Text style={Object.assign({}, {flex: 2}, styles.tableHeader)}>
               Index
             </Text>
@@ -104,7 +114,7 @@ const Order = (props: OrderProps) => {
           <View
             style={{
               flexDirection: 'row',
-              backgroundColor: '#000',
+              backgroundColor: '#5FBDFF',
               marginVertical: 5,
             }}>
             <Text style={Object.assign({}, {flex: 3.5}, styles.tableHeader)}>
@@ -151,7 +161,7 @@ export default Order;
 const styles = StyleSheet.create({
   header: {
     color: 'white',
-    backgroundColor: '#000',
+    backgroundColor: '#5FBDFF',
     fontWeight: 'bold',
     fontSize: 15,
     padding: 10,

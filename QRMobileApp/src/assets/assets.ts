@@ -1,6 +1,10 @@
-export const ICON_HOME = require('../assets/home.png')
-export const ICON_PROFILE = require('../assets/profile.png')
-export const ICON_ORDER = require('../assets/order.png')
-export const ICON_LOGIN = require('../assets/login.png')
-
-
+export const ICON_HOME = require('../assets/home.png');
+export const ICON_PROFILE = require('../assets/profile.png');
+export const ICON_ORDER = require('../assets/order.png');
+export const ICON_LOGIN = require('../assets/login.png');
+export const ACTIVE_LOGIN = require('../assets/active-home.png');
+export const INACTIVE_LOGIN = require('../assets/inactive-home.png');
+export const ACTIVE_ORDERS = require('../assets/active-notes.png');
+export const INACTIVE_ORDERS = require('../assets/inactive-notes.png');
+export const ACTIVE_USER = require('../assets/active-user.png');
+export const INACTIVE_USER = require('../assets/inactive-user.png');

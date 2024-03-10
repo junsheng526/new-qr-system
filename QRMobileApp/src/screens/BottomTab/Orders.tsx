@@ -131,7 +131,7 @@ export default Orders;
 
 const styles = StyleSheet.create({
   activeTabStyle: {
-    backgroundColor: '#AD40AF',
+    backgroundColor: '#5FBDFF',
     padding: 8,
     borderRadius: 8,
     margin: 8,

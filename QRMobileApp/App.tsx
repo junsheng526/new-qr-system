@@ -1,7 +1,7 @@
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import RootNavigation from './src/navigation';
-import app from './src/common/firebase';
+import app from './src/common/firebase-init';
 
 const initFirebase = app;
 
