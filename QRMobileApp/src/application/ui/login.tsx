@@ -8,7 +8,7 @@ import {
     TextInput,
     View,
 } from 'react-native';
-import { ICON_LOGIN } from '../../assets/assets';
+import { ICON_LOGIN } from '../../constants/assets';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useState } from 'react';

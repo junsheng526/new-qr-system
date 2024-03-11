@@ -1,0 +1,11 @@
+export const ICON_HOME = require('../assets/icons/home.png');
+export const ICON_PROFILE = require('../assets/icons/profile.png');
+export const ICON_ORDER = require('../assets/icons/order.png');
+export const ICON_LOGIN = require('../assets/images/login.png');
+export const ACTIVE_LOGIN = require('../assets/icons/active-home.png');
+export const INACTIVE_LOGIN = require('../assets/icons/inactive-home.png');
+export const ACTIVE_ORDERS = require('../assets/icons/active-notes.png');
+export const INACTIVE_ORDERS = require('../assets/icons/inactive-notes.png');
+export const ACTIVE_USER = require('../assets/icons/active-user.png');
+export const INACTIVE_USER = require('../assets/icons/inactive-user.png');
+export const EMTPY_TABLE = require('../assets/icons/table.png');

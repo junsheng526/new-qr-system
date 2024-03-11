@@ -4,7 +4,7 @@ import { db } from '../../../common/firebase';
 import { Icon } from 'react-native-vector-icons/Icon';
 import { Button, Dialog, Divider, Portal, RadioButton, TextInput } from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
-import { ACTIVE_USER, EMTPY_TABLE, ICON_LOGIN } from '../../../assets/assets';
+import { ACTIVE_USER, EMTPY_TABLE, ICON_LOGIN } from '../../../constants/assets';
 
 export interface TableActions {
     init: () => void

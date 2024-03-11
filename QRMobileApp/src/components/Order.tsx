@@ -1,8 +1,8 @@
-import {View, Text, StyleSheet, FlatList} from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {Card, Divider} from 'react-native-paper';
+import { View, Text, StyleSheet, FlatList } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Card, Divider } from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
-import {OrderModel} from '../model/model';
+import { OrderModel } from '../screens/orders/model';
 
 type OrderProps = {
   tableNumber: string;
@@ -10,7 +10,7 @@ type OrderProps = {
 };
 
 const Order = (props: OrderProps) => {
-  const {tableNumber, filter} = props;
+  const { tableNumber, filter } = props;
   const [orders, setOrders] = useState<OrderModel[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -40,17 +40,17 @@ const Order = (props: OrderProps) => {
   };
 
   const orderDish = (dish: any, index: number) => (
-    <View style={{flexDirection: 'row'}}>
-      <Text style={Object.assign({}, {flex: 1.5}, styles.tableData)}>
+    <View style={{ flexDirection: 'row' }}>
+      <Text style={Object.assign({}, { flex: 1.5 }, styles.tableData)}>
         {index + 1}
       </Text>
-      <Text style={Object.assign({}, {flex: 1.5}, styles.tableData)}>
+      <Text style={Object.assign({}, { flex: 1.5 }, styles.tableData)}>
         {dish.name}
       </Text>
-      <Text style={Object.assign({}, {flex: 1.5}, styles.tableData)}>
+      <Text style={Object.assign({}, { flex: 1.5 }, styles.tableData)}>
         {dish.quantity}
       </Text>
-      <Text style={Object.assign({}, {flex: 1.5}, styles.tableData)}>
+      <Text style={Object.assign({}, { flex: 1.5 }, styles.tableData)}>
         {dish.price}
       </Text>
     </View>
@@ -67,7 +67,7 @@ const Order = (props: OrderProps) => {
     );
 
     return (
-      <View style={{flexDirection: 'column'}}>
+      <View style={{ flexDirection: 'column' }}>
         <Divider />
         <Text
           style={{
@@ -79,36 +79,35 @@ const Order = (props: OrderProps) => {
             paddingTop: 10,
             paddingBottom: 10,
           }}>
-          {`Order #${index + 1} : ${
-            order.ordertime
+          {`Order #${index + 1} : ${order.ordertime
               ? order.ordertime.toDate().toLocaleString()
               : 'No date'
-          }`}
+            }`}
         </Text>
         <Divider />
-        <View style={{flexDirection: 'column'}}>
+        <View style={{ flexDirection: 'column' }}>
           <View
             style={{
               flexDirection: 'row',
               backgroundColor: '#5FBDFF',
               // borderColor: '#ececec',
             }}>
-            <Text style={Object.assign({}, {flex: 2}, styles.tableHeader)}>
+            <Text style={Object.assign({}, { flex: 2 }, styles.tableHeader)}>
               Index
             </Text>
-            <Text style={Object.assign({}, {flex: 2}, styles.tableHeader)}>
+            <Text style={Object.assign({}, { flex: 2 }, styles.tableHeader)}>
               Item
             </Text>
-            <Text style={Object.assign({}, {flex: 1.5}, styles.tableHeader)}>
+            <Text style={Object.assign({}, { flex: 1.5 }, styles.tableHeader)}>
               Amount
             </Text>
-            <Text style={Object.assign({}, {flex: 1.5}, styles.tableHeader)}>
+            <Text style={Object.assign({}, { flex: 1.5 }, styles.tableHeader)}>
               Each Price
             </Text>
           </View>
           <FlatList
             data={order.dishes}
-            renderItem={({item, index}) => orderDish(item, index)}
+            renderItem={({ item, index }) => orderDish(item, index)}
             keyExtractor={(item, index) => index.toString()}
           />
           <View
@@ -117,13 +116,13 @@ const Order = (props: OrderProps) => {
               backgroundColor: '#5FBDFF',
               marginVertical: 5,
             }}>
-            <Text style={Object.assign({}, {flex: 3.5}, styles.tableHeader)}>
+            <Text style={Object.assign({}, { flex: 3.5 }, styles.tableHeader)}>
               Total
             </Text>
-            <Text style={Object.assign({}, {flex: 1.5}, styles.tableHeader)}>
+            <Text style={Object.assign({}, { flex: 1.5 }, styles.tableHeader)}>
               {totalQuantity}
             </Text>
-            <Text style={Object.assign({}, {flex: 1.5}, styles.tableHeader)}>
+            <Text style={Object.assign({}, { flex: 1.5 }, styles.tableHeader)}>
               {totalPrice}
             </Text>
           </View>
@@ -138,7 +137,7 @@ const Order = (props: OrderProps) => {
 
   return (
     !isEmpty && (
-      <View style={{padding: 10}}>
+      <View style={{ padding: 10 }}>
         <Card style={styles.container}>
           <View style={styles.header}>
             <Text style={styles.header}>Table Number: {tableNumber}</Text>
@@ -146,7 +145,7 @@ const Order = (props: OrderProps) => {
           <Divider />
           <FlatList
             data={data}
-            renderItem={({item, index}) => tableItem(item, index)}
+            renderItem={({ item, index }) => tableItem(item, index)}
             keyExtractor={(item, index) => index.toString()}
           />
         </Card>

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 import Order from '../../../components/Order';
-import Button from '../../../components/Button';
+import Button from '../../../components/Atoms/Button';
 import firestore from '@react-native-firebase/firestore';
-import { OrderModel } from '../../../model/model';
+import { OrderModel } from '../model';
 
 
 export interface OrdersActions {

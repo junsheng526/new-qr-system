@@ -6,7 +6,7 @@ import {
   INACTIVE_LOGIN,
   INACTIVE_ORDERS,
   INACTIVE_USER,
-} from '../../assets/assets';
+} from '../../constants/assets';
 import { ImageURISource } from 'react-native';
 import TabBarIcon from '../../components/TabBarIcon';
 import Orders from '../../screens/orders';

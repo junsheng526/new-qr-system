@@ -2,7 +2,6 @@ import React from 'react';
 import {
   TouchableOpacity,
   Text,
-  StyleSheet,
   ViewStyle,
   StyleProp,
   TextStyle,
@@ -16,7 +15,7 @@ export interface ButtonProps {
 }
 
 const Button = (props: ButtonProps) => {
-  const {onPress, title, buttonStyles, textStyles} = props;
+  const { onPress, title, buttonStyles, textStyles } = props;
 
   return (
     <TouchableOpacity onPress={onPress} style={buttonStyles}>
