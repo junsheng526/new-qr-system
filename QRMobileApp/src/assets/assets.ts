@@ -8,3 +8,4 @@ export const ACTIVE_ORDERS = require('../assets/active-notes.png');
 export const INACTIVE_ORDERS = require('../assets/inactive-notes.png');
 export const ACTIVE_USER = require('../assets/active-user.png');
 export const INACTIVE_USER = require('../assets/inactive-user.png');
+export const EMTPY_TABLE = require('../assets/table.png');

@@ -18,36 +18,7 @@ export let Orders: React.FC<OrdersActions> = ({ init }) => {
 
     useEffect(() => {
         loadTables();
-        // addExampleDataToFirestore();
     }, []);
-
-    const addExampleDataToFirestore = async () => {
-        const exampleOrderData = {
-            ordertime: new Date(),
-            dishes: [
-                { name: 'Dish 1', quantity: 2, price: 10 },
-                { name: 'Dish 2', quantity: 1, price: 15 },
-                // Add more dishes as needed
-            ],
-            finished: false,
-        };
-
-        const tableNumber = '2'; // Replace with your table number
-
-        try {
-            await firestore()
-                .collection('restaurants')
-                .doc('R00001')
-                .collection('tables')
-                .doc(tableNumber)
-                .collection('orders')
-                .add(exampleOrderData);
-
-            console.log('Example order data added to Firestore successfully!');
-        } catch (error) {
-            console.error('Error adding example order data to Firestore:', error);
-        }
-    };
 
     const loadTables = async () => {
         try {

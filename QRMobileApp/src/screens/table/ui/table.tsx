@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Dimensions, TouchableOpacity, FlatList, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, TouchableOpacity, FlatList, SafeAreaView, Image } from 'react-native';
 import { db } from '../../../common/firebase';
 import { Icon } from 'react-native-vector-icons/Icon';
 import { Button, Dialog, Divider, Portal, RadioButton, TextInput } from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
+import { ACTIVE_USER, EMTPY_TABLE, ICON_LOGIN } from '../../../assets/assets';
 
 export interface TableActions {
     init: () => void
@@ -103,31 +104,6 @@ export let Table: React.FC<TableActions & TableData> = ({
         });
     };
 
-    // const fetchTable = async () => {
-    //     try {
-    //         const tablesSnapshot = await firestore()
-    //             .collection('restaurants')
-    //             .doc('R00001')
-    //             .collection('tables')
-    //             .get();
-
-    //         const tableList: any[] = [];
-    //         tablesSnapshot.forEach((doc) => {
-    //             const { name, status, paymentChoice } = doc.data();
-    //             tableList.push({
-    //                 name,
-    //                 status,
-    //                 paymentChoice,
-    //             });
-    //         });
-
-    //         setTables(tableList.sort(sortAlphaNum));
-
-    //     } catch (error) {
-    //         console.log('Encountered error:', error);
-    //     }
-    // };
-
     const ShowOrders = (tablename: string) => {
         setOrderDialogOpen(true);
         setSelectedTable(tablename);
@@ -192,13 +168,17 @@ export let Table: React.FC<TableActions & TableData> = ({
             case "NEEDTO_ORDER":
                 return "#00796b";
             case "NEEDTO_SERVE":
-                return "#FFFF00";
+                return "#E8751A";
             case "NEEDTO_PAY":
                 return "#FFA500";
             case "NEEDTO_ASSIST":
                 return "#FF0000";
         }
     };
+
+    const { width, height } = Dimensions.get('window');
+    const imageWidth = width * 0.04;
+    const imageHeight = height * 0.04;
 
     const renderTable = ({ item }: { item: any }) => {
         if (item.empty === true) {
@@ -222,7 +202,10 @@ export let Table: React.FC<TableActions & TableData> = ({
                         onPress={() => ShowOrders(item.name)}
                         onLongPress={() => editTable(item.name)}
                     >
-                        <Text>local-dining</Text>
+                        {/* <View style={{ height: 20, width: 60, backgroundColor: changeTableColor(item) }}>
+                            <Text>Dine In</Text>
+                        </View> */}
+                        <Image source={EMTPY_TABLE} style={{ height: 75, width: 75 }} />
                     </TouchableOpacity>
                     <Text style={styles.title}>{item.name}</Text>
                     <Text style={{ color: changeTableColor(item) }}>{item.status}</Text>
@@ -425,7 +408,7 @@ const styles = StyleSheet.create({
         justifyContent: "flex-start",
     },
     item: {
-        backgroundColor: "#64d8cb",
+        // backgroundColor: "#64d8cb",
         alignItems: "center",
         justifyContent: "center",
         flex: 1,
