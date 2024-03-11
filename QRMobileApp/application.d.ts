@@ -16,20 +16,15 @@ interface HasNavigate {
   navigate: NaviFunction;
 }
 
-interface HasSelectedTab {
-  selectedTab: string;
-}
-
-interface NamedComponent {
-  name: string;
-  component: (props: any) => React.JSX.Element;
-}
-
 type ReducerFormat<T> = (state: T, action: Action) => T;
 
 type Screen =
-  'unsecure'
-  | 'secure'
-  | 'Login'
+  'Login'
   | 'Home'
   | 'Table'
+  | 'Signup'
+  | 'Main'
+  | 'TableLanding'
+  | 'ProfileScreen'
+  | 'ProfileMenuScreen'
+  | 'OrdersLanding'

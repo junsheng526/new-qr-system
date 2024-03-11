@@ -2,7 +2,7 @@ let navi_impl: any = null;
 let reset_impl: any = null;
 let goBack_impl: any = null;
 
-export type Navigate = (screen: string, param?: any) => void;
+export type Navigate = (screen: Screen, param?: any) => void;
 
 export const navigate: Navigate = (screen, param) => {
   if (navi_impl) {

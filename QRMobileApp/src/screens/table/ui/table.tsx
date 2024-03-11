@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Dimensions, TouchableOpacity, FlatList, SafeAreaView, Image } from 'react-native';
 import { db } from '../../../common/firebase';
-import { Icon } from 'react-native-vector-icons/Icon';
 import { Button, Dialog, Divider, Portal, RadioButton, TextInput } from 'react-native-paper';
-import firestore from '@react-native-firebase/firestore';
-import { ACTIVE_USER, EMTPY_TABLE, ICON_LOGIN } from '../../../constants/assets';
+import { EMTPY_TABLE } from '../../../constants/assets';
+import { changeTableColor, formatData } from '../../../common/utils';
+import { TABLE_COLUMN } from '../../../constants/constants';
+import TableButton from '../../../components/Molecules/TableItem';
+import OrderRow from '../../../components/Molecules/DishItem';
+import DishRow from '../../../components/Molecules/DishItem';
+import OrderItem from '../../../components/Molecules/OrderItem';
 
 export interface TableActions {
     init: () => void
@@ -13,10 +17,6 @@ export interface TableActions {
 export interface TableData {
     userId: string
 }
-
-var tableRef;
-
-const numColumns = 3;
 
 export let Table: React.FC<TableActions & TableData> = ({
     init,
@@ -47,19 +47,6 @@ export let Table: React.FC<TableActions & TableData> = ({
         console.log("userId >> " + JSON.stringify(userId))
         fetchTable();
     }, []);
-
-    const formatData = (data: any, numColumns: number) => {
-        const numberOfFullRows = Math.floor(data.length / numColumns);
-        let numberOfElementsLastRow = data.length - numberOfFullRows * numColumns;
-        while (
-            numberOfElementsLastRow !== numColumns &&
-            numberOfElementsLastRow !== 0
-        ) {
-            data.push({ key: `blank-${numberOfElementsLastRow}`, empty: true });
-            numberOfElementsLastRow++;
-        }
-        return data;
-    };
 
     const addTable = (tableName: string) => {
         if (tableName !== "") {
@@ -104,7 +91,7 @@ export let Table: React.FC<TableActions & TableData> = ({
         });
     };
 
-    const ShowOrders = (tablename: string) => {
+    const showOrders = (tablename: string) => {
         setOrderDialogOpen(true);
         setSelectedTable(tablename);
         if (tablename != null) {
@@ -162,121 +149,6 @@ export let Table: React.FC<TableActions & TableData> = ({
         }
     };
 
-    const changeTableColor = (item: { status: string }) => {
-        const curr = item.status;
-        switch (curr) {
-            case "NEEDTO_ORDER":
-                return "#00796b";
-            case "NEEDTO_SERVE":
-                return "#E8751A";
-            case "NEEDTO_PAY":
-                return "#FFA500";
-            case "NEEDTO_ASSIST":
-                return "#FF0000";
-        }
-    };
-
-    const { width, height } = Dimensions.get('window');
-    const imageWidth = width * 0.04;
-    const imageHeight = height * 0.04;
-
-    const renderTable = ({ item }: { item: any }) => {
-        if (item.empty === true) {
-            return <TouchableOpacity style={[styles.item, styles.itemInvisible]} />;
-        } else
-            return (
-                <TouchableOpacity
-                    style={styles.item}
-                    onPress={() => ShowOrders(item.name)}
-                    onLongPress={() => editTable(item.name)}
-                >
-                    {/* <Icon.Button
-                        name="local-dining"
-                        backgroundColor={changeTableColor(item)}
-                        onPress={() => ShowOrders(item.name)}
-                        onLongPress={() => editTable(item.name)}
-                    /> */}
-                    <TouchableOpacity
-                        style={styles.item}
-                        // backgroundColor={changeTableColor(item)}
-                        onPress={() => ShowOrders(item.name)}
-                        onLongPress={() => editTable(item.name)}
-                    >
-                        {/* <View style={{ height: 20, width: 60, backgroundColor: changeTableColor(item) }}>
-                            <Text>Dine In</Text>
-                        </View> */}
-                        <Image source={EMTPY_TABLE} style={{ height: 75, width: 75 }} />
-                    </TouchableOpacity>
-                    <Text style={styles.title}>{item.name}</Text>
-                    <Text style={{ color: changeTableColor(item) }}>{item.status}</Text>
-                </TouchableOpacity>
-            );
-    };
-
-    const renderOrder = (order: any, index: number) => {
-        let total = 0;
-        let total_quantity = 0;
-        let order_number = index + 1;
-        let mTop = index === 0 ? 0 : 20;
-        if (order.dishes) {
-            for (let i = 0; i < order.dishes.length; i++) {
-                let price = order.dishes[i].price;
-                let quantity = order.dishes[i].quantity;
-                total += price * quantity;
-                total_quantity += quantity;
-            }
-        }
-        console.log("order.dishes >> " + JSON.stringify(order.dishes))
-        return (
-            <View style={{ flexDirection: "column", marginTop: mTop }}>
-                <Text
-                    style={{
-                        backgroundColor: "#F50057",
-                        color: "white",
-                        fontWeight: "bold",
-                        textAlign: "center",
-                        paddingVertical: 7,
-                    }}
-                >
-                    {"Order #" + order_number + " : " + order.ordertime.toDate().toString()}
-                </Text>
-                <View style={{ flexDirection: "column" }}>
-                    <View style={{ flexDirection: "row", backgroundColor: "#F50057" }}>
-                        <Text style={Object.assign({}, { flex: 2 }, styles.tableHeader)}>Item</Text>
-                        <Text style={Object.assign({}, { flex: 1.5 }, styles.tableHeader)}>Quantity</Text>
-                        <Text style={Object.assign({}, { flex: 1.5 }, styles.tableHeader)}>Price</Text>
-                    </View>
-                    <FlatList
-                        data={order.dishes ? order.dishes : [{ name: "N/A", price: 0, quantity: 0 }]}
-                        renderItem={({ item }) => renderDish(item)}
-                        keyExtractor={(item, index) => index.toString()}
-                    />
-                    <View style={{ flexDirection: "row", backgroundColor: "#F50057" }}>
-                        <Text style={Object.assign({}, { flex: 2 }, styles.tableHeader)}>Total</Text>
-                        <Text style={Object.assign({}, { flex: 1.5 }, styles.tableHeader)}>{total_quantity}</Text>
-                        <Text style={Object.assign({}, { flex: 1.5 }, styles.tableHeader)}>{total}</Text>
-                    </View>
-                </View>
-            </View>
-        );
-    };
-
-    const renderDish = (dish: any) => {
-        return (
-            <View style={{ flexDirection: "row" }}>
-                <Text style={Object.assign({}, { flex: 1.5 }, styles.tableData)}>
-                    {dish ? dish.name : "N/A"}
-                </Text>
-                <Text style={Object.assign({}, { flex: 1.5 }, styles.tableData)}>
-                    {dish ? dish.quantity : 0}
-                </Text>
-                <Text style={Object.assign({}, { flex: 1.5 }, styles.tableData)}>
-                    {dish ? dish.price : 0}
-                </Text>
-            </View>
-        );
-    };
-
     return (
         <SafeAreaView style={styles.container}>
             <Button
@@ -288,10 +160,16 @@ export let Table: React.FC<TableActions & TableData> = ({
                 <Text style={{ fontSize: 15 }}>Add new table</Text>
             </Button>
             <FlatList
-                data={formatData(tables, numColumns)}
-                renderItem={renderTable}
+                data={formatData(tables, TABLE_COLUMN)}
+                renderItem={({ item }) => (
+                    <TableButton
+                        item={item}
+                        onPress={() => showOrders(item.name)}
+                        onLongPress={() => editTable(item.name)}
+                    />
+                )}
                 keyExtractor={(item) => item.name}
-                numColumns={numColumns}
+                numColumns={TABLE_COLUMN}
             />
             <Portal>
                 <Dialog visible={addTableDialogOpen} onDismiss={hideAddTableDialog}>
@@ -320,7 +198,9 @@ export let Table: React.FC<TableActions & TableData> = ({
                     <Dialog.Title>Orders</Dialog.Title>
                     <FlatList
                         data={unfinishOrder}
-                        renderItem={({ item, index }) => renderOrder(item, index)}
+                        renderItem={({ item, index }) => (
+                            <OrderItem order={item} index={index} />
+                        )}
                         keyExtractor={(item, index) => index.toString()}
                     />
                     <View style={{ flexDirection: "row" }}>
@@ -413,7 +293,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         flex: 1,
         margin: 3,
-        height: Dimensions.get("window").width / numColumns,
+        height: Dimensions.get("window").width / TABLE_COLUMN,
     },
     itemInvisible: {
         backgroundColor: "transparent",

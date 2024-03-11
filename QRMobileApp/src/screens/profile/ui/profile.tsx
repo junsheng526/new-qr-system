@@ -1,5 +1,4 @@
 import React from 'react';
-import { useNavigation } from '@react-navigation/native';
 import { getAuth, signOut } from 'firebase/auth';
 import {
     Alert,
@@ -17,7 +16,9 @@ export interface ProfileActions {
     init: () => void
 }
 
-export let Profile: React.FC<ProfileActions> = ({ init }) => {
+export let Profile: React.FC<ProfileActions> = ({
+    init
+}) => {
 
     const auth = getAuth();
 
@@ -35,6 +36,7 @@ export let Profile: React.FC<ProfileActions> = ({ init }) => {
     };
 
     const user = auth.currentUser;
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
             <ScrollView

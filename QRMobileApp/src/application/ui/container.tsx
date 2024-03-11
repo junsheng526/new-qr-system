@@ -3,7 +3,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Table from '../../screens/table';
 import TabNavigator from '../connected/tab-navigator'
 import Login from '../connected/login'
-import firebase from "../../common/firebase";
 import { useAuth } from '../../common/firebase-auth';
 
 let Stack = createStackNavigator();
