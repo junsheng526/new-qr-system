@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
-import Order from '../../../components/Order';
+import Order from '../../../components/Organisms/Orders';
 import Button from '../../../components/Atoms/Button';
 import firestore from '@react-native-firebase/firestore';
 import { OrderModel } from '../model';

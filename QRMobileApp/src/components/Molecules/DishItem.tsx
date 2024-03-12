@@ -3,31 +3,41 @@ import { Text, View, StyleSheet } from 'react-native';
 
 export interface OrderProps {
     dish: any;
+    index?: number;
 }
 
-const DishRow = (props: OrderProps) => {
-    const { dish } = props;
+const DishItem = (props: OrderProps) => {
+    const { dish, index } = props;
 
     return (
         <View style={{ flexDirection: 'row' }}>
-            <Text style={Object.assign({}, { flex: 1.5 }, styles.tableData)}>
+            {index &&
+                (
+                    <Text style={styles.tableData}>
+                        {index + 1}
+                    </Text>
+                )
+            }
+            <Text style={styles.tableData}>
                 {dish ? dish.name : 'N/A'}
             </Text>
-            <Text style={Object.assign({}, { flex: 1.5 }, styles.tableData)}>
+            <Text style={styles.tableData}>
                 {dish ? dish.quantity : 0}
             </Text>
-            <Text style={Object.assign({}, { flex: 1.5 }, styles.tableData)}>
+            <Text style={styles.tableData}>
                 {dish ? dish.price : 0}
             </Text>
         </View>
     );
 };
 
-export default DishRow;
+export default DishItem;
 
 const styles = StyleSheet.create({
     tableData: {
-        // fontFamily: "Roboto",
         textAlign: 'center',
+        fontSize: 15,
+        padding: 3,
+        flex: 1.5
     },
 });

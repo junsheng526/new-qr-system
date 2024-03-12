@@ -1,4 +1,4 @@
-import { Orders, OrdersActions } from '../ui/orders';
+import { Orders, OrdersActions } from '../ui/orders-screen';
 import { SagaActions } from '../shared';
 import { createAction } from '../../../application/redux-utils';
 import { connect, MapStateToProps, MapDispatchToProps } from 'react-redux';

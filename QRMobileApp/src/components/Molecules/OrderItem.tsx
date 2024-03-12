@@ -39,13 +39,13 @@ const OrderItem = (props: OrderItemProps) => {
             </Text>
             <View style={{ flexDirection: 'column' }}>
                 <View style={{ flexDirection: 'row', backgroundColor: '#F50057' }}>
-                    <Text style={Object.assign({}, { flex: 2 }, styles.tableHeader)}>
+                    <Text style={[styles.tableHeader, { flex: 2 }]}>
                         Item
                     </Text>
-                    <Text style={Object.assign({}, { flex: 1.5 }, styles.tableHeader)}>
+                    <Text style={[styles.tableHeader, { flex: 1.5 }]}>
                         Quantity
                     </Text>
-                    <Text style={Object.assign({}, { flex: 1.5 }, styles.tableHeader)}>
+                    <Text style={[styles.tableHeader, { flex: 1.5 }]}>
                         Price
                     </Text>
                 </View>
@@ -59,13 +59,13 @@ const OrderItem = (props: OrderItemProps) => {
                     keyExtractor={(item, index) => index.toString()}
                 />
                 <View style={{ flexDirection: 'row', backgroundColor: '#F50057' }}>
-                    <Text style={Object.assign({}, { flex: 2 }, styles.tableHeader)}>
+                    <Text style={[styles.tableHeader, { flex: 2 }]}>
                         Total
                     </Text>
-                    <Text style={Object.assign({}, { flex: 1.5 }, styles.tableHeader)}>
+                    <Text style={[styles.tableHeader, { flex: 1.5 }]}>
                         {total_quantity}
                     </Text>
-                    <Text style={Object.assign({}, { flex: 1.5 }, styles.tableHeader)}>
+                    <Text style={[styles.tableHeader, { flex: 1.5 }]}>
                         {total}
                     </Text>
                 </View>
@@ -80,7 +80,6 @@ const styles = StyleSheet.create({
     tableHeader: {
         color: 'white',
         textAlign: 'center',
-        //fontFamily: "Roboto",
         fontWeight: 'bold',
     },
 });
