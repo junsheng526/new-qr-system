@@ -21,37 +21,33 @@ const TableButton = (props: TableProps) => {
 
     return (
         <>
-            {
-                !item.empty ? (
+            {!item.empty ? (
+                <TouchableOpacity
+                    style={styles.item}
+                    onPress={() => onPress(item.name)}
+                    onLongPress={() => onLongPress(item.name)}>
+                    {/* <Icon.Button
+                        name="local-dining"
+                        backgroundColor={changeTableColor(item)}
+                        onPress={() => ShowOrders(item.name)}
+                        onLongPress={() => editTable(item.name)}
+                    /> */}
                     <TouchableOpacity
                         style={styles.item}
+                        // backgroundColor={changeTableColor(item)}
                         onPress={() => onPress(item.name)}
-                        onLongPress={() => onLongPress(item.name)}
-                    >
-                        {/* <Icon.Button
-            name="local-dining"
-            backgroundColor={changeTableColor(item)}
-            onPress={() => ShowOrders(item.name)}
-            onLongPress={() => editTable(item.name)}
-        /> */}
-                        <TouchableOpacity
-                            style={styles.item}
-                            // backgroundColor={changeTableColor(item)}
-                            onPress={() => onPress(item.name)}
-                            onLongPress={() => onLongPress(item.name)}
-                        >
-                            {/* <View style={{ height: 20, width: 60, backgroundColor: changeTableColor(item) }}>
-                <Text>Dine In</Text>
-            </View> */}
-                            <Image source={EMTPY_TABLE} style={{ height: 75, width: 75 }} />
-                        </TouchableOpacity>
-                        <Text style={styles.title}>{item.name}</Text>
-                        <Text style={{ color: changeTableColor(item) }}>{item.status}</Text>
+                        onLongPress={() => onLongPress(item.name)}>
+                        {/* <View style={{ height: 20, width: 60, backgroundColor: changeTableColor(item) }}>
+                            <Text>Dine In</Text>
+                        </View> */}
+                        <Image source={EMTPY_TABLE} style={{ height: 75, width: 75 }} />
                     </TouchableOpacity>
-                ) : (
-                    <TouchableOpacity style={[styles.item, styles.itemInvisible]} />
-                )
-            }
+                    <Text style={styles.title}>{item.name}</Text>
+                    <Text style={{ color: changeTableColor(item) }}>{item.status}</Text>
+                </TouchableOpacity>
+            ) : (
+                <TouchableOpacity style={[styles.item, styles.itemInvisible]} />
+            )}
         </>
     );
 };
@@ -61,17 +57,17 @@ export default TableButton;
 const styles = StyleSheet.create({
     item: {
         // backgroundColor: "#64d8cb",
-        alignItems: "center",
-        justifyContent: "center",
+        alignItems: 'center',
+        justifyContent: 'center',
         flex: 1,
         margin: 3,
-        height: Dimensions.get("window").width / TABLE_COLUMN,
+        height: Dimensions.get('window').width / TABLE_COLUMN,
     },
     title: {
         fontSize: 20,
-        textAlign: "center",
+        textAlign: 'center',
     },
     itemInvisible: {
-        backgroundColor: "transparent",
+        backgroundColor: 'transparent',
     },
 });

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Card, Divider } from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
 import { OrderModel } from '../screens/orders/model';
+import TableOrder from './Organisms/TableOrder';
 
 type OrderProps = {
   tableNumber: string;
@@ -39,98 +40,6 @@ const Order = (props: OrderProps) => {
     }
   };
 
-  const orderDish = (dish: any, index: number) => (
-    <View style={{ flexDirection: 'row' }}>
-      <Text style={Object.assign({}, { flex: 1.5 }, styles.tableData)}>
-        {index + 1}
-      </Text>
-      <Text style={Object.assign({}, { flex: 1.5 }, styles.tableData)}>
-        {dish.name}
-      </Text>
-      <Text style={Object.assign({}, { flex: 1.5 }, styles.tableData)}>
-        {dish.quantity}
-      </Text>
-      <Text style={Object.assign({}, { flex: 1.5 }, styles.tableData)}>
-        {dish.price}
-      </Text>
-    </View>
-  );
-
-  const tableItem = (order: any, index: number) => {
-    const totalQuantity = order.dishes.reduce(
-      (acc: any, dish: any) => acc + dish.quantity,
-      0,
-    );
-    const totalPrice = order.dishes.reduce(
-      (acc: any, dish: any) => acc + dish.price * dish.quantity,
-      0,
-    );
-
-    return (
-      <View style={{ flexDirection: 'column' }}>
-        <Divider />
-        <Text
-          style={{
-            backgroundColor: '#5FBDFF',
-            borderColor: '#ececec',
-            color: 'white',
-            fontWeight: 'bold',
-            textAlign: 'center',
-            paddingTop: 10,
-            paddingBottom: 10,
-          }}>
-          {`Order #${index + 1} : ${order.ordertime
-              ? order.ordertime.toDate().toLocaleString()
-              : 'No date'
-            }`}
-        </Text>
-        <Divider />
-        <View style={{ flexDirection: 'column' }}>
-          <View
-            style={{
-              flexDirection: 'row',
-              backgroundColor: '#5FBDFF',
-              // borderColor: '#ececec',
-            }}>
-            <Text style={Object.assign({}, { flex: 2 }, styles.tableHeader)}>
-              Index
-            </Text>
-            <Text style={Object.assign({}, { flex: 2 }, styles.tableHeader)}>
-              Item
-            </Text>
-            <Text style={Object.assign({}, { flex: 1.5 }, styles.tableHeader)}>
-              Amount
-            </Text>
-            <Text style={Object.assign({}, { flex: 1.5 }, styles.tableHeader)}>
-              Each Price
-            </Text>
-          </View>
-          <FlatList
-            data={order.dishes}
-            renderItem={({ item, index }) => orderDish(item, index)}
-            keyExtractor={(item, index) => index.toString()}
-          />
-          <View
-            style={{
-              flexDirection: 'row',
-              backgroundColor: '#5FBDFF',
-              marginVertical: 5,
-            }}>
-            <Text style={Object.assign({}, { flex: 3.5 }, styles.tableHeader)}>
-              Total
-            </Text>
-            <Text style={Object.assign({}, { flex: 1.5 }, styles.tableHeader)}>
-              {totalQuantity}
-            </Text>
-            <Text style={Object.assign({}, { flex: 1.5 }, styles.tableHeader)}>
-              {totalPrice}
-            </Text>
-          </View>
-        </View>
-      </View>
-    );
-  };
-
   const data = orders.filter(order => order.finished === filter);
 
   const isEmpty = data.length ? false : true;
@@ -145,7 +54,9 @@ const Order = (props: OrderProps) => {
           <Divider />
           <FlatList
             data={data}
-            renderItem={({ item, index }) => tableItem(item, index)}
+            renderItem={({ item, index }) => (
+              <TableOrder order={item} index={index} />
+            )}
             keyExtractor={(item, index) => index.toString()}
           />
         </Card>
@@ -171,11 +82,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
     padding: 10,
     fontWeight: 'bold',
-  },
-  tableData: {
-    textAlign: 'center',
-    fontSize: 15,
-    padding: 3,
   },
   container: {
     borderRadius: 10,
