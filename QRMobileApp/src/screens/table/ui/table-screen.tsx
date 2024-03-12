@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Dimensions, TouchableOpacity, FlatList, SafeAreaView, Image } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, FlatList, SafeAreaView } from 'react-native';
 import { db } from '../../../common/firebase';
 import { Button, Dialog, Divider, Portal, RadioButton, TextInput } from 'react-native-paper';
-import { EMTPY_TABLE } from '../../../constants/assets';
-import { changeTableColor, formatData } from '../../../common/utils';
+import { formatData } from '../../../common/utils';
 import { TABLE_COLUMN } from '../../../constants/constants';
 import TableButton from '../../../components/Molecules/TableItem';
-import OrderRow from '../../../components/Molecules/DishItem';
-import DishRow from '../../../components/Molecules/DishItem';
 import OrderItem from '../../../components/Molecules/OrderItem';
 
 export interface TableActions {

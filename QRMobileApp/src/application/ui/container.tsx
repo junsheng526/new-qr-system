@@ -42,3 +42,7 @@ export let Container: React.FC<ApplicationData & ApplicationActions> = ({
     </Stack.Navigator>
   );
 };
+
+/**
+ * Main Stack with only 3 screens, Main will be the landing page controlling by navigator
+ */

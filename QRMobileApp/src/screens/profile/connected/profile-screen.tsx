@@ -1,9 +1,9 @@
-import { Profile, ProfileActions } from '../ui/profile';
+import { Profile, ProfileActions, ProfileData } from '../ui/profile-screen';
 import { SagaActions } from '../shared';
 import { createAction } from '../../../application/redux-utils';
 import { connect, MapStateToProps, MapDispatchToProps } from 'react-redux';
 
-let mapStateToProps: MapStateToProps<any, any, any> = (state, ownProps) => {
+let mapStateToProps: MapStateToProps<ProfileData, any, ApplicationStore> = (state, ownProps) => {
     return {};
 }
 

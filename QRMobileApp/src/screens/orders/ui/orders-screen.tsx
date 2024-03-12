@@ -10,7 +10,10 @@ export interface OrdersActions {
     init: () => void
 }
 
-export let Orders: React.FC<OrdersActions> = ({ init }) => {
+export interface OrdersData {
+}
+
+export let Orders: React.FC<OrdersActions & OrdersData> = ({ init }) => {
 
     const [tables, setTables] = useState<string[]>();
     const [unfinished, setUnfinished] = useState(true);

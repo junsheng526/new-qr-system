@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import Table from './connected/table';
+import Table from './connected/table-screen';
 
 const Stack = createStackNavigator();
 

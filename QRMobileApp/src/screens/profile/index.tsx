@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import Menu from './connected/menu';
-import Profile from './connected/profile';
+import Menu from './connected/profile-menu-screen';
+import Profile from './connected/profile-screen';
 
 const Stack = createStackNavigator();
 

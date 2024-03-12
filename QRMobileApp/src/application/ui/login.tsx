@@ -13,7 +13,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useState } from 'react';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { useNavigation } from '@react-navigation/native';
 import { navigate } from '../../common/navigation';
 
 export interface LoginScreenData {

@@ -5,7 +5,10 @@ export interface ProfileMenuActions {
     init: () => void
 }
 
-export let ProfileMenu: React.FC<ProfileMenuActions> = ({ init }) => {
+export interface ProfileMenuData {
+}
+
+export let ProfileMenu: React.FC<ProfileMenuActions & ProfileMenuData> = ({ init }) => {
     useEffect(() => { init(); }, [init]);
     return (
         <View>

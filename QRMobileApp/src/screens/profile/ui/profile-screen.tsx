@@ -16,7 +16,10 @@ export interface ProfileActions {
     init: () => void
 }
 
-export let Profile: React.FC<ProfileActions> = ({
+export interface ProfileData {
+}
+
+export let Profile: React.FC<ProfileActions & ProfileData> = ({
     init
 }) => {
 

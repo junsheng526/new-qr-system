@@ -1,4 +1,4 @@
-import { Table, TableActions, TableData } from '../ui/table';
+import { Table, TableActions, TableData } from '../ui/table-screen';
 import { SagaActions } from '../shared';
 import { createAction } from '../../../application/redux-utils';
 import { connect, MapStateToProps, MapDispatchToProps } from 'react-redux';
