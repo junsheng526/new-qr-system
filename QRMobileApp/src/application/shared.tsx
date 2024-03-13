@@ -12,5 +12,5 @@ export const StoreActions = {
 
 export interface ApplicationStoreData {
     isInitDone?: boolean;
-    userId: string;
+    userId: any;
 }

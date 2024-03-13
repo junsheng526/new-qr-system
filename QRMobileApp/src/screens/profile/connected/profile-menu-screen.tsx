@@ -4,7 +4,9 @@ import { createAction } from '../../../application/redux-utils';
 import { connect, MapStateToProps, MapDispatchToProps } from 'react-redux';
 
 let mapStateToProps: MapStateToProps<ProfileMenuData, any, ApplicationStore> = (state, ownProps) => {
-    return {};
+    return {
+        username: state.applicationReducer.userId.displayName
+    };
 }
 
 let mapDispatchToProps: MapDispatchToProps<ProfileMenuActions, any> = (dispatch, ownProps) => ({

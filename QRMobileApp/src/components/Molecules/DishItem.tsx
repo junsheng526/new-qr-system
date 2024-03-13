@@ -11,7 +11,7 @@ const DishItem = (props: OrderProps) => {
 
     return (
         <View style={{ flexDirection: 'row' }}>
-            {index &&
+            {index !== undefined &&
                 (
                     <Text style={styles.tableData}>
                         {index + 1}
