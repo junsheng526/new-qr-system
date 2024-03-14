@@ -14,6 +14,8 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useState } from 'react';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { navigate } from '../../common/navigation';
+import CheckBox from '@react-native-community/checkbox';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export interface LoginScreenData {
 
@@ -36,6 +38,7 @@ export const LoginScreen: React.FC<LoginScreenData & LoginScreenActions> = ({
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [rememberMe, setRememberMe] = useState(false);
 
     const navToMain = () => {
         navigate('Main')
@@ -47,6 +50,9 @@ export const LoginScreen: React.FC<LoginScreenData & LoginScreenActions> = ({
                 loggedUser = auth.currentUser;
                 console.log("loggedUser >> " + loggedUser)
                 setUserId(loggedUser);
+                if (rememberMe) {
+                    AsyncStorage.setItem('isAuthenticate', 'true');
+                }
             })
             .then(navToMain)
             .catch(function (error: any) {
@@ -85,6 +91,14 @@ export const LoginScreen: React.FC<LoginScreenData & LoginScreenActions> = ({
                         value={password}
                         onChangeText={text => setPassword(text)}
                     />
+                </View>
+                <View style={styles.checkboxContainer}>
+                    <CheckBox
+                        value={rememberMe}
+                        onValueChange={(newValue) => setRememberMe(newValue)}
+                        tintColors={{ true: '#AD40AF', false: '#AD40AF' }}
+                    />
+                    <Text style={styles.label}>Remember Me</Text>
                 </View>
                 <TouchableOpacity onPress={() => handleLogin()} style={styles.button}>
                     <Text style={styles.btnText}>Login</Text>
@@ -131,5 +145,21 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         fontSize: 16,
         color: '#fff',
+    },
+    checkboxContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 20,
+    },
+    checkbox: {
+        width: 20,
+        height: 20,
+        borderWidth: 1,
+        borderRadius: 5,
+        borderColor: '#AD40AF',
+        marginRight: 10,
+    },
+    label: {
+        fontSize: 16,
     },
 });

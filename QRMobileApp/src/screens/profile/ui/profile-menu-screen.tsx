@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Button, FlatList } from 'react-native';
+import { View, Text, FlatList } from 'react-native';
 import { firebase } from '@react-native-firebase/firestore';
 import { Dialog, Portal, TextInput } from 'react-native-paper';
-import Dish from '../../../components/Dish';
+import Dish from '../../../components/Organisms/Dish';
+import Button from '../../../components/Atoms/Button';
 
 export interface ProfileMenuActions {
     init: () => void
@@ -116,10 +117,21 @@ export let ProfileMenu: React.FC<ProfileMenuActions & ProfileMenuData> = ({
         return (
             <View>
                 <View style={{ flexDirection: 'row' }}>
-                    <Button title={category} />
+                    <Text>{category}</Text>
                     <Button
                         title="Delete"
                         onPress={() => deleteCategory(category)}
+                        textStyles={{
+                            color: '#5FBDFF',
+                        }}
+                        buttonStyles={{
+                            borderColor: '#5FBDFF',
+                            borderWidth: 2,
+                            borderRadius: 3,
+                            paddingVertical: 8,
+                            paddingHorizontal: 12,
+                            marginHorizontal: 5,
+                        }}
                     />
                 </View>
             </View>
@@ -129,8 +141,20 @@ export let ProfileMenu: React.FC<ProfileMenuActions & ProfileMenuData> = ({
     return (
         <View style={{ flex: 1 }}>
             <Text style={{ alignSelf: 'center', fontWeight: 'bold', fontSize: 20 }}> MENU </Text>
-            <Button title="Edit Category"
+            <Button
+                title="Edit Category"
                 onPress={() => { setCategoryDialogOpen(true) }}
+                textStyles={{
+                    color: '#5FBDFF',
+                }}
+                buttonStyles={{
+                    borderColor: '#5FBDFF',
+                    borderWidth: 2,
+                    borderRadius: 3,
+                    paddingVertical: 8,
+                    paddingHorizontal: 12,
+                    marginHorizontal: 5,
+                }}
             />
             <Portal>
                 <Dialog
@@ -146,6 +170,17 @@ export let ProfileMenu: React.FC<ProfileMenuActions & ProfileMenuData> = ({
                         <Button
                             title="Add"
                             onPress={() => { addCategory() }}
+                            textStyles={{
+                                color: '#5FBDFF',
+                            }}
+                            buttonStyles={{
+                                borderColor: '#5FBDFF',
+                                borderWidth: 2,
+                                borderRadius: 3,
+                                paddingVertical: 8,
+                                paddingHorizontal: 12,
+                                marginHorizontal: 5,
+                            }}
                         />
                         <FlatList
                             data={restauCategories}
@@ -154,16 +189,39 @@ export let ProfileMenu: React.FC<ProfileMenuActions & ProfileMenuData> = ({
                         />
                     </Dialog.Content>
                     <Dialog.Actions>
-                        <Button onPress={hideCategoryDialog} title='Done' />
+                        <Button
+                            onPress={hideCategoryDialog}
+                            title='Done'
+                            textStyles={{
+                                color: '#5FBDFF',
+                            }}
+                            buttonStyles={{
+                                borderColor: '#5FBDFF',
+                                borderWidth: 2,
+                                borderRadius: 3,
+                                paddingVertical: 8,
+                                paddingHorizontal: 12,
+                                marginHorizontal: 5,
+                            }}
+                        />
                     </Dialog.Actions>
                 </Dialog>
             </Portal>
             <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', paddingBottom: 10 }}>
-                <Button title='Back'
-                    onPress={() => { /* navigation logic */ }}
-                />
-                <Button title='Add New Dish'
+                <Button
+                    title='Add New Dish'
                     onPress={() => { createNew() }}
+                    textStyles={{
+                        color: '#5FBDFF',
+                    }}
+                    buttonStyles={{
+                        borderColor: '#5FBDFF',
+                        borderWidth: 2,
+                        borderRadius: 3,
+                        paddingVertical: 8,
+                        paddingHorizontal: 12,
+                        marginHorizontal: 5,
+                    }}
                 />
             </View>
             <View style={{ flex: 1 }}>

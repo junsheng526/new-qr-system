@@ -8,7 +8,7 @@ import {
   INACTIVE_USER,
 } from '../../constants/assets';
 import { ImageURISource } from 'react-native';
-import TabBarIcon from '../../components/TabBarIcon';
+import TabBarIcon from '../../components/Atoms/TabBarIcon';
 import Orders from '../../screens/orders';
 import Table from '../../screens/table';
 import Profile from '../../screens/profile';

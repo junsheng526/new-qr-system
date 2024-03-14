@@ -9,3 +9,4 @@ export const INACTIVE_ORDERS = require('../assets/icons/inactive-notes.png');
 export const ACTIVE_USER = require('../assets/icons/active-user.png');
 export const INACTIVE_USER = require('../assets/icons/inactive-user.png');
 export const EMTPY_TABLE = require('../assets/icons/table.png');
+export const SPLASH_IMAGE = require('../assets/images/splash-image.png');

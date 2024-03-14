@@ -4,6 +4,7 @@ import { launchImageLibrary } from 'react-native-image-picker';
 import storage from '@react-native-firebase/storage';
 import { Button, Modal, Text, TouchableOpacity, View } from 'react-native';
 import { Avatar } from 'react-native-paper';
+import DishElement from '../Molecules/DishElement';
 
 export interface DishProps {
     id: string;
@@ -31,15 +32,6 @@ const Dish = (props: DishProps) => {
     };
 
     const [isModalVisible, setModalVisible] = useState(false);
-
-    // const getPermissionAsync = async () => {
-    //     if (Platform.OS === 'ios') {
-    //         const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-    //         if (status !== 'granted') {
-    //             alert('Sorry, we need camera roll permissions to make this work!');
-    //         }
-    //     }
-    // };
 
     const pickImage = async () => {
         launchImageLibrary({
@@ -87,14 +79,8 @@ const Dish = (props: DishProps) => {
                             animationType="slide"
                             transparent={false}
                             visible={isModalVisible}>
-                            <Text>HAHA</Text>
-                            <Button title='haha' onPress={() => setModalVisible(false)} />
-                            {/* <DishElement id={this.state.id} modalVisible={this.state.modalVisible} setModalVisible={this.setModalVisible} /> */}
-
+                            <DishElement username={username} id={id} modalVisible={isModalVisible} setModalVisible={setModalVisible} />
                         </Modal>
-
-
-
                         <View>
                             <Text> Name: {tableData.name}</Text>
                             <Text> Price: ${tableData.price}</Text>

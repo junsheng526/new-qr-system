@@ -1,5 +1,5 @@
 import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
-import { LoginScreenActions, LoginScreen } from '../ui/login';
+import { LoginScreenActions, LoginScreen } from '../ui/login-screen';
 import { createActionData } from '../redux-utils';
 import { StoreActions } from '../shared';
 

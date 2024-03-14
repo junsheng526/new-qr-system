@@ -1,7 +1,10 @@
 import { StoreActions, ProfileModel } from './shared';
 
 let initial: ProfileModel = {
-  value: ''
+  error: '',
+  categoriesList: [],
+  menuIdList: [],
+  menuData: [],
 };
 
 export const profileReducer: ReducerFormat<ProfileModel> = function (
