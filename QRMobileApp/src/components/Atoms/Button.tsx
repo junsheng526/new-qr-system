@@ -10,16 +10,25 @@ import {
 export interface ButtonProps {
   onPress: () => void;
   title: string;
-  buttonStyles: StyleProp<ViewStyle>;
-  textStyles: StyleProp<TextStyle>;
+  buttonStyles?: StyleProp<ViewStyle>;
+  textStyles?: StyleProp<TextStyle>;
 }
 
 const Button = (props: ButtonProps) => {
   const { onPress, title, buttonStyles, textStyles } = props;
 
   return (
-    <TouchableOpacity onPress={onPress} style={buttonStyles}>
-      <Text style={textStyles}>{title}</Text>
+    <TouchableOpacity
+      onPress={onPress}
+      style={buttonStyles}
+    >
+      <Text
+        style={[textStyles, {
+          color: '#ffffff'
+        }]}
+      >
+        {title}
+      </Text>
     </TouchableOpacity>
   );
 };

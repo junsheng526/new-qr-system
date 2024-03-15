@@ -77,15 +77,15 @@ export let Profile: React.FC<ProfileActions & ProfileData> = ({
                 <View style={styles.userInfoWrapper}>
                     <View style={styles.userInfoItem}>
                         <Text style={styles.userInfoTitle}>{22}</Text>
-                        <Text style={styles.userInfoSubTitle}>Posts</Text>
+                        <Text style={styles.userInfoSubTitle}>Served</Text>
                     </View>
                     <View style={styles.userInfoItem}>
                         <Text style={styles.userInfoTitle}>10,000</Text>
-                        <Text style={styles.userInfoSubTitle}>Followers</Text>
+                        <Text style={styles.userInfoSubTitle}>Pending</Text>
                     </View>
                     <View style={styles.userInfoItem}>
                         <Text style={styles.userInfoTitle}>100</Text>
-                        <Text style={styles.userInfoSubTitle}>Following</Text>
+                        <Text style={styles.userInfoSubTitle}>Tables</Text>
                     </View>
                 </View>
             </ScrollView>

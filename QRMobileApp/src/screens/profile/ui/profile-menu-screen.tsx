@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList } from 'react-native';
+import { View, Text, FlatList, ToastAndroid } from 'react-native';
 import { firebase } from '@react-native-firebase/firestore';
 import { Dialog, Portal, TextInput } from 'react-native-paper';
 import Dish from '../../../components/Organisms/Dish';
 import Button from '../../../components/Atoms/Button';
+import AppBar from '../../../components/Atoms/AppBar';
+import { navigate } from '../../../common/navigation';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { ProfileStackParamList } from '..';
+import { RouteProp } from '@react-navigation/native';
+import CategoriesList from '../../../components/Organisms/CategoriesList';
 
 export interface ProfileMenuActions {
     init: () => void
@@ -13,8 +19,15 @@ export interface ProfileMenuData {
     username: string
 }
 
-export let ProfileMenu: React.FC<ProfileMenuActions & ProfileMenuData> = ({
+export type OwnProps = {
+    navigation: StackNavigationProp<ProfileStackParamList>;
+    route: RouteProp<ProfileStackParamList, 'ProfileMenuScreen'>;
+}
+
+export let ProfileMenu: React.FC<ProfileMenuActions & ProfileMenuData & OwnProps> = ({
     // username,
+    navigation,
+    route,
     init
 }) => {
 
@@ -59,11 +72,19 @@ export let ProfileMenu: React.FC<ProfileMenuActions & ProfileMenuData> = ({
 
     const createNew = () => {
         if (currentIndex !== undefined) {
-            console.log("currentIndex !== undefined")
+            console.log("currentIndex >> " + currentIndex.toString())
             MenuRef.doc(currentIndex.toString())
                 .set({
-                    image: "", name: currentIndex.toString(), price: 0, categories: ["All"], description: "",
-                    id: currentIndex.toString(), availability: true, newPrice: 0
+                    image: "",
+                    name: `Dish ${currentIndex.toString()}`,
+                    price: 0, categories: ["All"],
+                    description: "",
+                    id: currentIndex.toString(),
+                    availability: true,
+                    newPrice: 0
+                })
+                .then(() => {
+                    ToastAndroid.show(`Dish ${currentIndex.toString()} added successfuly!`, ToastAndroid.SHORT)
                 })
                 .then(() =>
                     firebase.firestore().collection("restaurants").doc(username)
@@ -71,12 +92,21 @@ export let ProfileMenu: React.FC<ProfileMenuActions & ProfileMenuData> = ({
                 ).then(() => setCurrentIndex(currentIndex + 1));
 
             getAllID();
+        } else {
+            console.log("currentIndex === undefined")
         }
-        console.log("currentIndex === undefined")
     };
 
     const deleteDish = (dishId: string) => {
-        MenuRef.doc(dishId).delete();
+        MenuRef.doc(dishId).delete()
+            .then(() => {
+                ToastAndroid.show('Dish deleted successfuly!', ToastAndroid.SHORT)
+            })
+            .catch(error => {
+                console.log('Error when delete the dish >> ' + error);
+                ToastAndroid.show('Error when delete the dish >> ' + error, ToastAndroid.LONG);
+                return
+            });
         getAllID();
     };
 
@@ -140,86 +170,36 @@ export let ProfileMenu: React.FC<ProfileMenuActions & ProfileMenuData> = ({
 
     return (
         <View style={{ flex: 1 }}>
-            <Text style={{ alignSelf: 'center', fontWeight: 'bold', fontSize: 20 }}> MENU </Text>
-            <Button
-                title="Edit Category"
-                onPress={() => { setCategoryDialogOpen(true) }}
-                textStyles={{
-                    color: '#5FBDFF',
-                }}
-                buttonStyles={{
-                    borderColor: '#5FBDFF',
-                    borderWidth: 2,
-                    borderRadius: 3,
-                    paddingVertical: 8,
-                    paddingHorizontal: 12,
-                    marginHorizontal: 5,
-                }}
+            <AppBar title='MENU' onBack={() => { navigation.pop() }} />
+            <CategoriesList
+                visible={categoryDialogOpen}
+                categories={restauCategories}
+                newCategory={newCategory}
+                hideCategoryDialog={hideCategoryDialog}
+                setNewCategory={setNewCategory}
+                addCategory={addCategory}
+                deleteCategory={deleteCategory}
             />
-            <Portal>
-                <Dialog
-                    visible={categoryDialogOpen}
-                    onDismiss={hideCategoryDialog}>
-                    <Dialog.Title>All Categories</Dialog.Title>
-                    <Dialog.Content>
-                        <TextInput
-                            placeholder='Enter New Category'
-                            value={newCategory || undefined}
-                            onChangeText={inputCategory => setNewCategory(inputCategory)}
-                        />
-                        <Button
-                            title="Add"
-                            onPress={() => { addCategory() }}
-                            textStyles={{
-                                color: '#5FBDFF',
-                            }}
-                            buttonStyles={{
-                                borderColor: '#5FBDFF',
-                                borderWidth: 2,
-                                borderRadius: 3,
-                                paddingVertical: 8,
-                                paddingHorizontal: 12,
-                                marginHorizontal: 5,
-                            }}
-                        />
-                        <FlatList
-                            data={restauCategories}
-                            renderItem={({ item, index }) => renderCategory(item)}
-                            keyExtractor={(item, index) => index.toString()}
-                        />
-                    </Dialog.Content>
-                    <Dialog.Actions>
-                        <Button
-                            onPress={hideCategoryDialog}
-                            title='Done'
-                            textStyles={{
-                                color: '#5FBDFF',
-                            }}
-                            buttonStyles={{
-                                borderColor: '#5FBDFF',
-                                borderWidth: 2,
-                                borderRadius: 3,
-                                paddingVertical: 8,
-                                paddingHorizontal: 12,
-                                marginHorizontal: 5,
-                            }}
-                        />
-                    </Dialog.Actions>
-                </Dialog>
-            </Portal>
             <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', paddingBottom: 10 }}>
+                <Button
+                    title="Edit Category"
+                    onPress={() => { setCategoryDialogOpen(true) }}
+                    buttonStyles={{
+                        backgroundColor: '#5FBDFF',
+                        paddingVertical: 16,
+                        paddingHorizontal: 24,
+                        borderRadius: 4,
+                        marginHorizontal: 5,
+                    }}
+                />
                 <Button
                     title='Add New Dish'
                     onPress={() => { createNew() }}
-                    textStyles={{
-                        color: '#5FBDFF',
-                    }}
                     buttonStyles={{
-                        borderColor: '#5FBDFF',
-                        borderWidth: 2,
-                        borderRadius: 3,
-                        paddingVertical: 8,
-                        paddingHorizontal: 12,
+                        backgroundColor: '#5FBDFF',
+                        paddingVertical: 16,
+                        paddingHorizontal: 24,
+                        borderRadius: 4,
                         marginHorizontal: 5,
                     }}
                 />
@@ -229,7 +209,7 @@ export let ProfileMenu: React.FC<ProfileMenuActions & ProfileMenuData> = ({
                     data={data}
                     renderItem={({ item }) => <Dish id={item.toString()} deleteDish={deleteDish} username={username} />}
                     keyExtractor={item => item.toString()}
-                    numColumns={2}
+                    numColumns={1}
                 />
             </View>
         </View>

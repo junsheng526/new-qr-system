@@ -13,10 +13,10 @@ export type ProfileStackParamList = {
 };
 
 let Composed = () => (
-  <Stack.Navigator>
-    <Stack.Screen name="ProfileScreen" component={Profile} options={{ headerShown: false }} />
+  <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Screen name="ProfileScreen" component={Profile} />
     <Stack.Screen name="ProfileMenuScreen" component={Menu} />
-    <Stack.Screen name="ProfileMenuEditScreen" component={ProfileMenuEdit} options={{ headerShown: false }} />
+    <Stack.Screen name="ProfileMenuEditScreen" component={ProfileMenuEdit} />
   </Stack.Navigator>
 );
 

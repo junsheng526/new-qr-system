@@ -14,6 +14,7 @@ export interface TextInputProps {
     labelStyle?: StyleProp<TextStyle> | undefined;
     value?: string | undefined
     onChangeText?: ((text: string) => void) | undefined;
+    containerStyle?: StyleProp<TextStyle> | undefined;
 }
 
 const LabelTextInput = (props: TextInputProps) => {
@@ -22,12 +23,13 @@ const LabelTextInput = (props: TextInputProps) => {
         labelStyle,
         value,
         onChangeText,
+        containerStyle,
     } = props;
 
     return (
-        <View style={{
+        <View style={[containerStyle, {
             paddingBottom: 16
-        }}>
+        }]}>
             <Text style={labelStyle}>
                 {label}
             </Text>
