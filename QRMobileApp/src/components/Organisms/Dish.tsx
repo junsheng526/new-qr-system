@@ -5,6 +5,7 @@ import storage from '@react-native-firebase/storage';
 import { Button, Modal, Text, TouchableOpacity, View } from 'react-native';
 import { Avatar } from 'react-native-paper';
 import DishElement from '../Molecules/DishElement';
+import { navigate } from '../../common/navigation';
 
 export interface DishProps {
     id: string;
@@ -92,7 +93,11 @@ const Dish = (props: DishProps) => {
                                 <Text>Change Image</Text>
                             </TouchableOpacity>
                             <View style={{ flexDirection: 'row' }}>
-                                <Button title='Edit' onPress={() => { setModalVisible(true); }} />
+                                <Button title='Edit' onPress={() => {
+                                    // setModalVisible(true);
+                                    navigate('ProfileMenuEditScreen', { id: id })
+                                }}
+                                />
                                 <Button title='Delete' onPress={() => { deleteDish(id); }} />
                             </View>
                         </View>

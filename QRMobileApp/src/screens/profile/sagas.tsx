@@ -1,4 +1,4 @@
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { SagaActions, StoreActions } from './shared';
 import { firebase } from '@react-native-firebase/firestore';
 import { createActionData } from '../../application/redux-utils';
@@ -21,6 +21,33 @@ function* menuProcess(init: Action): Generator<any, void, any> {
   yield takeLatest(SagaActions.GET_MENU_ID_LIST, getMenuIdList);
   yield takeLatest(SagaActions.GET_MENU_DATA, getMenuData);
   yield takeLatest(SagaActions.GET_DISH_DATA, getDishData);
+}
+
+function* fetchCategory(init: Action): Generator<any, void, any> {
+  const username = init.data.username;
+  const RestaurantRef = firebase.firestore().collection("restaurants").doc(username);
+  try {
+    const doc = yield call(() => RestaurantRef.get());
+    const restaurantCategories = doc.data()?.categories || [];
+    yield put(createActionData(StoreActions.SET, restaurantCategories));
+
+    const temp: { [key: string]: boolean } = {};
+    restaurantCategories.forEach((category: string | number) => {
+      temp[category] = false;
+    });
+
+    const existingCategories = yield select(state => state.categories); // Assuming you have categories stored in your Redux state
+    existingCategories.forEach((category: string | number) => {
+      if (temp[category] !== undefined) {
+        temp[category] = true;
+      }
+    });
+
+    yield put(createActionData(StoreActions.SET, temp));
+  } catch (error) {
+    console.error("Error fetching categories: ", error);
+    yield put(createActionData(StoreActions.SET, { error: 'Retrieving categories error!' }));
+  }
 }
 
 function* getCategoriesList(init: Action): Generator<any, void, any> {

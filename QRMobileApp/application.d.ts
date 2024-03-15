@@ -28,3 +28,4 @@ type Screen =
   | 'ProfileScreen'
   | 'ProfileMenuScreen'
   | 'OrdersLanding'
+  | 'ProfileMenuEditScreen'
