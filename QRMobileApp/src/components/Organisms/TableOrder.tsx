@@ -22,54 +22,40 @@ const TableOrder = (props: TableOrderProps) => {
 
     return (
         <View style={{ flexDirection: 'column' }}>
-            <Divider />
+            {/* <Divider />
             <Text
                 style={styles.orderTitle}>
                 {`Order #${index + 1} : ${order.ordertime
                     ? order.ordertime.toDate().toLocaleString()
                     : 'No date'
                     }`}
-            </Text>
-            <Divider />
+            </Text> */}
             <View style={{ flexDirection: 'column' }}>
-                <View
-                    style={{
-                        flexDirection: 'row',
-                        backgroundColor: '#5FBDFF',
-                        // borderColor: '#ececec',
-                    }}>
-                    <Text style={[styles.tableHeader, { flex: 2 }]}>
-                        Index
-                    </Text>
-                    <Text style={[styles.tableHeader, { flex: 2 }]}>
-                        Item
-                    </Text>
-                    <Text style={[styles.tableHeader, { flex: 1.5 }]}>
-                        Amount
-                    </Text>
-                    <Text style={[styles.tableHeader, { flex: 1.5 }]}>
-                        Each Price
-                    </Text>
-                </View>
+                <Divider style={{
+                    height: 1,
+                    marginBottom: 8,
+                }} />
                 <FlatList
                     data={order.dishes}
                     renderItem={({ item, index }) => <DishItem dish={item} index={index} />}
                     keyExtractor={(item, index) => index.toString()}
                 />
+                <Divider style={{
+                    height: 1.5,
+                    marginTop: 8,
+                }} />
                 <View
                     style={{
                         flexDirection: 'row',
-                        backgroundColor: '#5FBDFF',
                         marginVertical: 5,
                     }}>
-                    <Text style={[styles.tableHeader, { flex: 3.5 }]}>
-                        Total
-                    </Text>
-                    <Text style={[styles.tableHeader, { flex: 1.5 }]}>
-                        {totalQuantity}
-                    </Text>
-                    <Text style={[styles.tableHeader, { flex: 1.5 }]}>
-                        {totalPrice}
+                    <Text style={{
+                        flex: 1,
+                        fontSize: 12,
+                        padding: 10,
+                        fontWeight: '500',
+                    }}>
+                        Message: Hi, Please pack green sauce in my order and please tell your delivery boy that have to come on 2nd floor because I'm not at home.
                     </Text>
                 </View>
             </View>
@@ -80,24 +66,15 @@ const TableOrder = (props: TableOrderProps) => {
 export default TableOrder;
 
 const styles = StyleSheet.create({
-    header: {
-        color: 'white',
-        backgroundColor: '#5FBDFF',
-        fontWeight: 'bold',
-        fontSize: 15,
-        padding: 10,
-    },
     tableHeader: {
-        color: 'white',
         textAlign: 'center',
         fontSize: 15,
         padding: 10,
         fontWeight: 'bold',
     },
     orderTitle: {
-        backgroundColor: '#5FBDFF',
         borderColor: '#ececec',
-        color: 'white',
+        // color: 'white',
         fontWeight: 'bold',
         textAlign: 'center',
         paddingTop: 10,

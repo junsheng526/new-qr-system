@@ -6,13 +6,22 @@ import { Provider } from 'react-redux';
 import { goBack, navigate, navigationRef, reset } from './src/application/navigation';
 import { store } from './src/application/store';
 import { setupNav } from './src/common/navigation';
-import { Provider as PaperProvider } from 'react-native-paper';
+import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
 
 const initFirebase = app;
+// const DefaultTheme = useTheme();
 
 const App = () => {
+    const theme = {
+        ...DefaultTheme,
+        colors: {
+            ...DefaultTheme.colors,
+            secondaryContainer: 'transparent'
+        }
+    };
+
     return (
-        <PaperProvider>
+        <PaperProvider theme={theme}>
             <Provider store={store}>
                 <NavigationContainer ref={navigationRef}>
                     <ApplicationContainer />

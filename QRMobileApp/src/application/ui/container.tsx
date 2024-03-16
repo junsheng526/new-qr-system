@@ -4,6 +4,7 @@ import Table from '../../screens/table';
 import TabNavigator from '../connected/tab-navigator'
 import Login from '../connected/login-screen'
 import SplashScreen from '../connected/splash-screen';
+import registerScreen from '../connected/register-screen';
 
 let Stack = createStackNavigator();
 
@@ -33,6 +34,7 @@ export let Container: React.FC<ApplicationData & ApplicationActions> = ({
       initialRouteName="Splash"
       screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Splash" component={SplashScreen} />
+      <Stack.Screen name="Register" component={registerScreen} />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Main" component={TabNavigator} />
       <Stack.Screen name="Signup" component={Table} />

@@ -4,6 +4,7 @@ import { Card, Divider } from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
 import { OrderModel } from '../../screens/orders/model';
 import TableOrder from './TableOrder';
+import Button from '../Atoms/Button';
 
 type OrderProps = {
   tableNumber: string;
@@ -49,7 +50,38 @@ const Order = (props: OrderProps) => {
       <View style={{ padding: 10 }}>
         <Card style={styles.container}>
           <View style={styles.header}>
-            <Text style={styles.header}>Table Number: {tableNumber}</Text>
+            <View style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}>
+              <View>
+                <Text style={{
+                  fontWeight: 'bold',
+                  fontSize: 18,
+                }}>
+                  Table {tableNumber}
+                </Text>
+                <Text style={{
+                  fontSize: 11,
+                }}>
+                  Today at 12:33 AM
+                </Text>
+              </View>
+              <View>
+                <Text style={{
+                  fontSize: 13,
+                  textAlign: 'right',
+                }}>
+                  {'Order No - ' + '11001010'}
+                </Text>
+                <Text style={{
+                  fontSize: 16,
+                  textAlign: 'right',
+                }}>
+                  Total: RM 106.00
+                </Text>
+              </View>
+            </View>
           </View>
           <Divider />
           <FlatList
@@ -59,6 +91,56 @@ const Order = (props: OrderProps) => {
             )}
             keyExtractor={(item, index) => index.toString()}
           />
+          <View style={{
+            flexDirection: 'row',
+            margin: 8,
+            justifyContent: 'space-between',
+          }}>
+            <Button
+              onPress={() => { }}
+              title={'Edit Order'}
+              buttonStyles={{
+                borderColor: '#5FBDFF',
+                borderWidth: 1,
+                paddingVertical: 8,
+                paddingHorizontal: 8,
+                borderRadius: 6,
+                margin: 2,
+              }}
+              textStyles={{
+                color: '#5FBDFF',
+              }} />
+            <View style={{
+              flexDirection: 'row',
+            }}>
+              <Button
+                onPress={() => { }}
+                title={'Cancel Order'}
+                buttonStyles={{
+                  backgroundColor: 'red',
+                  paddingVertical: 8,
+                  paddingHorizontal: 8,
+                  borderRadius: 6,
+                  margin: 2,
+                }}
+                textStyles={{
+                  color: '#FFFFFF',
+                }} />
+              <Button
+                onPress={() => { }}
+                title={'Complete Order'}
+                buttonStyles={{
+                  backgroundColor: '#4CCD99',
+                  paddingVertical: 8,
+                  paddingHorizontal: 8,
+                  borderRadius: 6,
+                  margin: 2,
+                }}
+                textStyles={{
+                  color: '#FFFFFF',
+                }} />
+            </View>
+          </View>
         </Card>
         <Divider />
       </View>
@@ -71,7 +153,6 @@ export default Order;
 const styles = StyleSheet.create({
   header: {
     color: 'white',
-    backgroundColor: '#5FBDFF',
     fontWeight: 'bold',
     fontSize: 15,
     padding: 10,
@@ -87,5 +168,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginVertical: 25,
     marginHorizontal: 0,
+    backgroundColor: 'white',
   },
 });

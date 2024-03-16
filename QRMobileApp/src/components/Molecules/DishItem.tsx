@@ -10,22 +10,24 @@ const DishItem = (props: OrderProps) => {
     const { dish, index } = props;
 
     return (
-        <View style={{ flexDirection: 'row' }}>
-            {index !== undefined &&
-                (
-                    <Text style={styles.tableData}>
-                        {index + 1}
-                    </Text>
-                )
-            }
-            <Text style={styles.tableData}>
+        <View style={{
+            flexDirection: 'row',
+        }}>
+            <Text style={[styles.tableData, {
+                flex: 5
+            }]}>
                 {dish ? dish.name : 'N/A'}
             </Text>
-            <Text style={styles.tableData}>
-                {dish ? dish.quantity : 0}
+            <Text style={[styles.tableData, {
+                flex: 2,
+            }]}>
+                {dish ? 'Qty: ' + dish.quantity : 0}
             </Text>
-            <Text style={styles.tableData}>
-                {dish ? dish.price : 0}
+            <Text style={[styles.tableData, {
+                flex: 3,
+                textAlign: 'right',
+            }]}>
+                {dish ? 'RM ' + dish.price.toFixed(2) : 0}
             </Text>
         </View>
     );
@@ -35,9 +37,8 @@ export default DishItem;
 
 const styles = StyleSheet.create({
     tableData: {
-        textAlign: 'center',
-        fontSize: 15,
-        padding: 3,
-        flex: 1.5
+        paddingHorizontal: 10,
+        fontSize: 14,
+        fontWeight: '700',
     },
 });

@@ -23,9 +23,7 @@ const Button = (props: ButtonProps) => {
       style={buttonStyles}
     >
       <Text
-        style={[textStyles, {
-          color: '#ffffff'
-        }]}
+        style={textStyles}
       >
         {title}
       </Text>

@@ -25,7 +25,7 @@ export type OwnProps = {
 }
 
 export let ProfileMenu: React.FC<ProfileMenuActions & ProfileMenuData & OwnProps> = ({
-    // username,
+    username,
     navigation,
     route,
     init
@@ -36,7 +36,6 @@ export let ProfileMenu: React.FC<ProfileMenuActions & ProfileMenuData & OwnProps
     const [categoryDialogOpen, setCategoryDialogOpen] = useState(false);
     const [restauCategories, setRestauCategories] = useState<string[]>([]);
     const [data, setData] = useState<number[]>([]);
-    let username = 'R00001'
 
     let MenuRef = firebase.firestore().collection(username + "Menu");
 
@@ -143,31 +142,6 @@ export let ProfileMenu: React.FC<ProfileMenuActions & ProfileMenuData & OwnProps
         }
     };
 
-    const renderCategory = (category: string) => {
-        return (
-            <View>
-                <View style={{ flexDirection: 'row' }}>
-                    <Text>{category}</Text>
-                    <Button
-                        title="Delete"
-                        onPress={() => deleteCategory(category)}
-                        textStyles={{
-                            color: '#5FBDFF',
-                        }}
-                        buttonStyles={{
-                            borderColor: '#5FBDFF',
-                            borderWidth: 2,
-                            borderRadius: 3,
-                            paddingVertical: 8,
-                            paddingHorizontal: 12,
-                            marginHorizontal: 5,
-                        }}
-                    />
-                </View>
-            </View>
-        );
-    };
-
     return (
         <View style={{ flex: 1 }}>
             <AppBar title='MENU' onBack={() => { navigation.pop() }} />
@@ -191,6 +165,9 @@ export let ProfileMenu: React.FC<ProfileMenuActions & ProfileMenuData & OwnProps
                         borderRadius: 4,
                         marginHorizontal: 5,
                     }}
+                    textStyles={{
+                        color: '#FFFFFF',
+                    }}
                 />
                 <Button
                     title='Add New Dish'
@@ -201,6 +178,9 @@ export let ProfileMenu: React.FC<ProfileMenuActions & ProfileMenuData & OwnProps
                         paddingHorizontal: 24,
                         borderRadius: 4,
                         marginHorizontal: 5,
+                    }}
+                    textStyles={{
+                        color: '#FFFFFF',
                     }}
                 />
             </View>

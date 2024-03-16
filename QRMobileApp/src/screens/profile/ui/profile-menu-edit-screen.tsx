@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import EditAppBar from '../../../components/Atoms/EditAppBar';
-import { SafeAreaView, StyleSheet, Switch, Text, ToastAndroid, TouchableOpacity, View } from 'react-native';
+import { Alert, SafeAreaView, ScrollView, StyleSheet, Switch, Text, ToastAndroid, TouchableOpacity, View } from 'react-native';
 import { Avatar } from 'react-native-paper';
 import storage from '@react-native-firebase/storage';
 import { firebase } from '@react-native-firebase/firestore';
@@ -161,17 +161,41 @@ export let ProfileMenuEdit: React.FC<ProfileMenuEditActions & ProfileMenuEditDat
             ToastAndroid.show('Error when update menu details >> ' + error, ToastAndroid.LONG);
             return
         });
+    }
 
+    const createCheckBox = () => {
+        return restauCategories.map((category, index) => (
+            <View
+                key={index}
+                style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                }}
+            >
+                <Text>{category}</Text>
+                <Switch
+                    value={checkeds[category]}
+                    onValueChange={() => {
+                        const temp = { ...checkeds };
+                        temp[category] = !checkeds[category];
+                        if (category === "prompt" && temp[category] === true) {
+                            Alert.alert("Don't forget to set Prompt Price!");
+                        }
+                        setCheckeds(temp);
+                    }}
+                />
+            </View>
+        ));
     }
 
     return (
-        <SafeAreaView style={styles.safeArea}>
+        <View style={styles.safeArea}>
             <EditAppBar
                 title='Edit Dish Details'
                 onBack={() => { navigation.pop() }}
                 onPressSave={() => { handleSave() }}
             />
-            <View style={styles.container}>
+            <ScrollView style={styles.container}>
                 <View style={{
                     alignItems: 'center',
                     paddingVertical: 36,
@@ -184,7 +208,6 @@ export let ProfileMenuEdit: React.FC<ProfileMenuEditActions & ProfileMenuEditDat
                     </TouchableOpacity>
                 </View>
                 <View style={{
-                    // backgroundColor: '#5FBDFF',
                     paddingHorizontal: 24
                 }}>
                     <LabelTextInput
@@ -229,9 +252,19 @@ export let ProfileMenuEdit: React.FC<ProfileMenuEditActions & ProfileMenuEditDat
                             onValueChange={setAvailability}
                         />
                     </View>
+                    <View style={{
+                        flexDirection: 'column',
+                        paddingStart: 8,
+                    }}>
+                        <Text style={{
+                            fontWeight: '700',
+                            paddingBottom: 16,
+                        }}>CATEGORIES</Text>
+                        {restauCategories !== null ? createCheckBox() : "aa"}
+                    </View>
                 </View>
-            </View>
-        </SafeAreaView>
+            </ScrollView>
+        </View>
     );
 }
 
@@ -241,6 +274,5 @@ const styles = StyleSheet.create({
     },
     container: {
         paddingHorizontal: 16,
-        // backgroundColor: 'red'
     },
 });

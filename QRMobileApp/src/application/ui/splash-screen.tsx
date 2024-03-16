@@ -1,10 +1,9 @@
 import { useEffect } from 'react';
 import { View, Image, Dimensions, StyleSheet, Text } from 'react-native';
 import { SPLASH_IMAGE } from '../../constants/assets';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { reset } from '../../common/navigation';
-import { getAuth, onAuthStateChanged, User } from 'firebase/auth';
-import { useAuth } from '../../common/firebase-auth';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export interface SplashData { }
 
@@ -16,17 +15,27 @@ export let Splash: React.FC<SplashData & SplashAction> = ({
 
   const auth = getAuth();
 
-  useEffect(() => {
+  const appInit = async () => {
+    // setValue("isDeviceRegistered", "false")
+    const isDeviceRegistered = await AsyncStorage.getItem("isDeviceRegistered") === 'true';
+    console.log("isDeviceRegistered: ", isDeviceRegistered);
+    // isDeviceRegistered ? reset('secure', {}) : reset('LoginActivate', {});
     const unsubcribeFromAuthStateChanged = onAuthStateChanged(auth, user => {
       console.log("Check user auth state >> " + user)
-      if (user) {
+      if (user && isDeviceRegistered) {
         reset('Main', {});
-      } else {
+      } else if (!user && !isDeviceRegistered) {
+        reset('Register', {});
+      }
+      else {
         reset('Login', {});
       }
     });
-
     return unsubcribeFromAuthStateChanged;
+  }
+
+  useEffect(() => {
+    appInit()
   }, []);
 
   return (
